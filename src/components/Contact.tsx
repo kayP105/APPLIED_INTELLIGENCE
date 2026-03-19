@@ -110,7 +110,7 @@ export default function Contact() {
   })
 
   return (
-    <section id="contact" style={{ background: '#fdf6e3' }}>
+    <section id="contact" style={{overflowY: 'auto', height: '100vh', boxSizing: 'border-box', background: '#fdf6e3' }}>
       <div className="container">
         <div className="contact-grid">
 

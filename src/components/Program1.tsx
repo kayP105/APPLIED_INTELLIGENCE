@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const deliverables = [
   '01 AI Tools & Work Map', '02 Personal Prompt Library', '03 Industry Research Brief',
@@ -61,30 +61,105 @@ const stats = [
   { num: '₹0', suffix: 'Risk', desc: 'Pilot before commitment' },
 ]
 
-const arcColors = ['#f9c784','#a8d8a8','#84b8f9','#f9a8d4','#c4a8f9','#a8f0d8']
-
 export default function Program1() {
   const [activeWeek, setActiveWeek] = useState(0)
+  const [tlVisible, setTlVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const tlRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768)
+    const check = () => setIsMobile(window.innerWidth < 768)
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
   }, [])
 
+  useEffect(() => {
+    const el = tlRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setTlVisible(true); obs.disconnect() } },
+      { threshold: 0 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
   return (
     <>
-      {/* ── PAGE 1: unchanged ── */}
-      <section id="program1" style={{
+      <style>{`
+        /* ── RESPONSIVE OVERRIDES ── */
+
+        /* Page 1 */
+        @media (max-width: 767px) {
+          .p1-grid { grid-template-columns: 1fr !important; }
+          .p1-section { padding: 80px 4% 32px !important; min-height: auto !important; align-items: flex-start !important; }
+          .p1-calendar { display: none !important; }
+          .p1-deliverables { grid-template-columns: 1fr !important; }
+        }
+
+        /* Page 2 outcomes */
+        .p2-outcomes-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        @media (max-width: 767px) {
+          .p2-page {
+            height: auto !important;
+            min-height: 100vh;
+            overflow-y: auto !important;
+          }
+          .p2-header { height: auto !important; padding: 16px 4% !important; }
+          .p2-timeline { padding: 16px 4% !important; flex: none !important; }
+          .p2-outcomes-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .p2-spine { display: none !important; }
+          .p2-stats {
+            height: auto !important;
+            padding: 16px 4% !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            row-gap: 12px !important;
+          }
+          .p2-stats-inner {
+            grid-template-columns: repeat(2, 1fr) !important;
+            row-gap: 14px !important;
+            padding: 8px 4% !important;
+          }
+          #program1-outcomes {
+            height: auto !important;
+            min-height: unset !important;
+          }
+        }
+
+        /* Outcome card animations */
+        @keyframes fadeInLeft {
+          from { opacity: 0; transform: translateX(-20px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+          from { opacity: 0; transform: translateX(20px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes spineGrow {
+          from { transform: translateX(-50%) scaleY(0); }
+          to   { transform: translateX(-50%) scaleY(1); }
+        }
+      `}</style>
+
+      {/* ══ PAGE 1: Cert + Calendar ══ */}
+      <section id="program1" className="p1-section" style={{
         position: 'relative', minHeight: '100vh', display: 'flex',
         alignItems: 'center', padding: '72px 3% 24px',
         boxSizing: 'border-box', overflow: 'hidden',
       }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('/program1-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,20,10,0.65)' }} />
-        <div style={{ position: 'relative', zIndex: 2, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 24, width: '100%', alignItems: 'start' }}>
+
+        <div className="p1-grid" style={{ position: 'relative', zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, width: '100%', alignItems: 'start' }}>
+
+          {/* LEFT */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div style={{ background: 'rgba(253,250,244,0.96)', border: '1.5px solid #9b2020', padding: '20px 24px', position: 'relative', boxShadow: '0 8px 32px rgba(0,0,0,0.25)' }}>
               <div style={{ position: 'absolute', inset: 5, border: '0.5px solid #c9a96e', pointerEvents: 'none' }} />
@@ -103,12 +178,14 @@ export default function Program1() {
                 ))}
               </div>
             </div>
+
             <div style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.12)', padding: '14px 18px' }}>
               <p style={{ fontFamily: "'Playfair Display',serif", fontSize: '0.88rem', fontStyle: 'italic', color: '#fff', lineHeight: 1.6, margin: 0 }}>&ldquo;Students don&apos;t attend sessions — they <span style={{ color: '#f0c060', fontStyle: 'normal', fontWeight: 700 }}>produce output</span> in every single one.&rdquo;</p>
             </div>
+
             <div>
               <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginBottom: 8 }}>What Every Student Builds &amp; Leaves With</div>
-              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 5 }}>
+              <div className="p1-deliverables" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5 }}>
                 {deliverables.map(d => (
                   <div key={d} style={{ background: 'rgba(255,255,255,0.88)', padding: '5px 10px', fontSize: '0.72rem', color: '#1a0f0f', fontFamily: "'Plus Jakarta Sans',sans-serif", display: 'flex', gap: 7 }}>
                     <span style={{ color: '#9b2020', fontWeight: 700, fontSize: '0.65rem', flexShrink: 0 }}>{d.slice(0,2)}</span>
@@ -117,12 +194,15 @@ export default function Program1() {
                 ))}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 10, flexDirection: isMobile ? 'column' : 'row' }}>
+
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <a href="#contact" style={{ background: '#9b2020', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: '0.78rem', padding: '10px 22px', textDecoration: 'none' }}>Request Pilot →</a>
               <a href="#contact" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 600, fontSize: '0.78rem', padding: '10px 22px', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.35)' }}>Download Curriculum</a>
             </div>
           </div>
-          <div style={{ background: 'rgba(255,255,255,0.95)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)', overflow: 'hidden' }}>
+
+          {/* RIGHT — Calendar (hidden on mobile) */}
+          <div className="p1-calendar" style={{ background: 'rgba(255,255,255,0.95)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)', overflow: 'hidden' }}>
             <div style={{ background: '#1a0f0f', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#c9a96e', marginBottom: 2 }}>6-Week Programme</div>
@@ -159,245 +239,127 @@ export default function Program1() {
         </div>
       </section>
 
-      {/* ── PAGE 2: Outcomes + Timeline ──
-        
-        WHY <div> NOT <section>:
-        globals.css has `#program1 { padding: 100px 0 }` which would fight our inline
-        height if we used id="program1-outcomes" on a <section>. Using a plain <div>
-        and overriding all layout inline keeps it clean.
-
-        WHY calc(100vh - 68px) + marginTop 68px:
-        The nav is position:fixed, height:68px. Every "100vh" section has 68px
-        obscured at the top by the nav. So the actual usable height is 100vh - 68px.
-        We push the div down by 68px with marginTop so it starts below the nav.
-
-        WHY three fixed children (header + timeline + stats):
-        flex:1 alone on the timeline allows it to grow beyond the container when
-        the browser's 100vh calculation is off by even 1px, pushing the stats bar
-        out of view. Anchoring header and stats to fixed pixel heights (88px + 72px)
-        and letting the timeline fill the rest via flex:1 + minHeight:0 guarantees
-        the stats bar is always visible.
-      -->*/}
-      {/*
-        PAGE 2 — key insight:
-        The PageScroller/page-snap container controls scroll, so this section
-        must be exactly one viewport tall INCLUDING the nav. We use 100vh with
-        paddingTop:68px so the content starts below the nav, and the section
-        itself sits flush. No marginTop — that would push it outside the snap container.
-
-        Layout (all px, no flex stretching):
-          paddingTop: 68px  (nav clearance)
-          header:     56px
-          timeline:   calc(100vh - 68px - 56px - 60px) via flex:1
-          stats:      60px
-      */}
+      {/* ══ PAGE 2: Outcomes + Timeline ══ */}
       <div
         id="program1-outcomes"
+        ref={tlRef}
+        className="p2-page"
         style={{
-          height: isMobile ? 'auto' : '100vh',
+          height: '100vh',
           boxSizing: 'border-box',
           backgroundImage: "url('/gradient-mesh.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
           flexDirection: 'column',
-          overflow: isMobile ? 'visible' : 'hidden',
+          overflow: 'hidden',
           paddingTop: 68,
-          paddingBottom: isMobile ? 40 : 0,
         }}
       >
-
-        {/* HEADER — 56px */}
-        <div style={{
-          height: 56,
+        {/* HEADER */}
+        <div className="p2-header" style={{
+          height: 64,
           flexShrink: 0,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           padding: '0 4%',
-          borderBottom: '1px solid rgba(0,0,0,0.06)',
+          borderBottom: '1px solid rgba(0,0,0,0.08)',
+          background: 'rgba(253,246,227,0.6)',
+          backdropFilter: 'blur(8px)',
         }}>
-          <div style={{
-            fontSize: '0.8rem',
-            letterSpacing: '0.16em',
-            color: '#8a7a60',
-            marginBottom: 2,
-            fontFamily: "'Plus Jakarta Sans',sans-serif",
-            textTransform: 'uppercase',
-            fontWeight: 800,
-          }}>
+          <div style={{ fontSize: '0.7rem', letterSpacing: '0.16em', color: '#8a7a60', marginBottom: 2, fontFamily: "'Plus Jakarta Sans',sans-serif", textTransform: 'uppercase', fontWeight: 800 }}>
             What Students Gain
           </div>
-          <h2 style={{
-            fontSize: '1.4rem',
-            fontWeight: 1200,
-            color: '#1a1208',
-            margin: 0,
-            fontFamily: "'Playfair Display',serif",
-            lineHeight: 1.1,
-          }}>
+          <h2 style={{ fontSize: 'clamp(1.2rem,2vw,1.6rem)', fontWeight: 900, color: '#1a1208', margin: 0, fontFamily: "'Playfair Display',serif", lineHeight: 1.1 }}>
             After 6 weeks, your students will:
           </h2>
         </div>
 
-        {/* TIMELINE — vertical, two-column layout */}
-        <div style={{
+        {/* OUTCOMES GRID — 2 columns desktop, 1 column mobile */}
+        <div className="p2-timeline" style={{
           flex: 1,
           minHeight: 0,
           position: 'relative',
-          padding: '12px 6%',
-          overflowY: isMobile ? 'visible' : 'hidden',
+          padding: '14px 5%',
+          overflowY: isMobile ? 'auto' : 'hidden',
         }}>
-          <style>{`
-            @keyframes fadeInLeft {
-              from { opacity: 0; transform: translateX(-20px); }
-              to   { opacity: 1; transform: translateX(0); }
-            }
-            @keyframes fadeInRight {
-              from { opacity: 0; transform: translateX(20px); }
-              to   { opacity: 1; transform: translateX(0); }
-            }
-            @keyframes spineGrow {
-              from { transform: translateX(-50%) scaleY(0); }
-              to   { transform: translateX(-50%) scaleY(1); }
-            }
-            .tl-spine-animated {
-              transform-origin: top center;
-              animation: spineGrow 0.8s cubic-bezier(0.4,0,0.2,1) both;
-            }
-            .tl-left-animated  { animation: fadeInLeft  0.45s cubic-bezier(0.4,0,0.2,1) both; }
-            .tl-right-animated { animation: fadeInRight 0.45s cubic-bezier(0.4,0,0.2,1) both; }
-          `}</style>
-
-          {/* Centre spine line */}
-          <div style={{
-
+          {/* Spine — desktop only */}
+          <div className="p2-spine" style={{
             position: 'absolute',
             left: '50%',
-            top: 12,
-            bottom: 12,
+            top: 14,
+            bottom: 14,
             width: 1,
             background: 'linear-gradient(to bottom, #c9a96e44, #5a9a9088, #2a6a5a44)',
             transform: 'translateX(-50%)',
+            transformOrigin: 'top center',
+            animation: tlVisible ? 'spineGrow 0.8s cubic-bezier(0.4,0,0.2,1) both' : 'none',
           }} />
 
-          {/* Rows — one per outcome */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-            justifyContent: 'space-between',
-          }}>
+          {/* 2×3 grid of outcome cards */}
+          <div className="p2-outcomes-grid" style={{ height: '100%' }}>
             {outcomes.map((o, i) => {
               const isLeft = i % 2 === 0
-              const delay  = `${i * 0.1}s`
-
-              const card = (
+              return (
                 <div
-                  className={isLeft ? 'tl-left' : 'tl-right'}
+                  key={i}
                   style={{
-                    width: '43%',
-                    height: '130%',
-                    background: '#d9f4f8',
-                    borderLeft: isLeft ? '3px solid #19357c' : '1px solid #ddd6c8',
-                    borderRight: isLeft ? '1px solid #ddd6c8' : '3px solid #126b8c',
-                    borderTop: '1px solid #ddd6c8',
-                    borderBottom: '1px solid #ddd6c8',
-                    borderRadius: isLeft ? '0 4px 4px 0' : '4px 0 0 4px',
-                    padding: '9px 12px',
-                    boxShadow: '0 1px 8px rgba(0,0,0,0.06)',
-                    animationDelay: delay,
+                    background: 'rgba(217,244,248,0.88)',
+                    backdropFilter: 'blur(6px)',
+                    borderLeft: isLeft ? '3px solid #19357c' : '1px solid rgba(221,214,200,0.7)',
+                    borderRight: isLeft ? '1px solid rgba(221,214,200,0.7)' : '3px solid #126b8c',
+                    borderTop: '1px solid rgba(221,214,200,0.7)',
+                    borderBottom: '1px solid rgba(221,214,200,0.7)',
+                    borderRadius: isLeft ? '0 6px 6px 0' : '6px 0 0 6px',
+                    padding: '12px 16px',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 4,
+                    // Transition-based animation
+                    opacity: tlVisible ? 1 : 0,
+                    transform: tlVisible
+                      ? 'translateX(0)'
+                      : `translateX(${isLeft ? '-20px' : '20px'})`,
+                    transition: `opacity 0.45s ease ${0.1 + i * 0.1}s, transform 0.45s ease ${0.1 + i * 0.1}s`,
                   }}
                 >
-                  <div style={{
-                    fontSize: '0.58rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    color: '#1b348f',
-                    fontFamily: "'Plus Jakarta Sans',sans-serif",
-                    marginBottom: 3,
-                  }}>
+                  <div style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1b348f', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
                     {String(i + 1).padStart(2, '0')}
                   </div>
-                  <div style={{
-                    fontSize: '0.79rem',
-                    fontWeight: 700,
-                    color: '#1a1208',
-                    lineHeight: 1.25,
-                    fontFamily: "'Plus Jakarta Sans',sans-serif",
-                    marginBottom: 2,
-                  }}>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1a1208', lineHeight: 1.25, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
                     {o.title}
                   </div>
-                  <div style={{
-                    fontSize: '0.75rem',
-                    color: '#6a5a48',
-                    lineHeight: 1.4,
-                    fontFamily: "'Plus Jakarta Sans',sans-serif",
-                  }}>
+                  <div style={{ fontSize: '0.72rem', color: '#3a2e1e', lineHeight: 1.5, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
                     {o.body}
                   </div>
-                </div>
-              )
-
-              const spacer = <div style={{ width: '43%' }} />
-
-              const dot = (
-                <div style={{
-                  width: '14%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  flexShrink: 0,
-                }}>
-                  {/* dot on the spine */}
-                  <div style={{
-                    width: 9,
-                    height: 9,
-                    borderRadius: '50%',
-                    background: '#f5f0e8',
-                    border: '2px solid #5a7f9a',
-                    zIndex: 1,
-                  }} />
-                </div>
-              )
-
-              return (
-                <div key={i} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0,
-                }}>
-                  {isLeft ? <>{card}{dot}{spacer}</> : <>{spacer}{dot}{card}</>}
                 </div>
               )
             })}
           </div>
         </div>
 
-        {/* STATS BAR — 60px, always visible */}
+        {/* STATS BAR */}
         <div style={{
-          height: 60,
           flexShrink: 0,
           background: '#0f2a5c',
           display: 'flex',
           alignItems: 'center',
+          padding: '12px 0',
         }}>
-          <div style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', textAlign: 'center' }}>
+          <div className="p2-stats-inner" style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', textAlign: 'center' }}>
             {stats.map((s, i) => (
-              <div key={i} style={{ borderRight: i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none', padding: '0 8px' }}>
-                <div style={{ fontSize: '1.15rem', fontWeight: 900, color: '#fff', lineHeight: 1.1, fontFamily: "'Playfair Display',serif" }}>
+              <div key={i} style={{ borderRight: i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none', padding: '0 10px' }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', lineHeight: 1.1, fontFamily: "'Playfair Display',serif" }}>
                   {s.num}
-                  {s.suffix && <span style={{ color: '#eaeaea', fontSize: '0.72rem', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 600 }}>{' '}{s.suffix}</span>}
+                  {s.suffix && <span style={{ color: '#93c5fd', fontSize: '0.82rem', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 600 }}>{' '}{s.suffix}</span>}
                 </div>
-                <div style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.5)', fontFamily: "'Plus Jakarta Sans',sans-serif", marginTop: 1 }}>{s.desc}</div>
+                <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.6)', fontFamily: "'Plus Jakarta Sans',sans-serif", marginTop: 2 }}>{s.desc}</div>
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </>
   )

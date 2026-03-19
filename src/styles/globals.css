@@ -37,6 +37,7 @@ body {
   font-size: 16px;
   line-height: 1.65;
   overflow-x: hidden;
+
 }
 
 h1,h2,h3 { font-family: 'Playfair Display', serif; line-height: 1.15; letter-spacing: -0.01em; }
@@ -94,7 +95,7 @@ nav {
   position: fixed; top:0; left:0; right:0; z-index:200;
   padding: 0 5%;
   display: flex; align-items: center; justify-content: space-between;
-  height: 68px;
+  height: 55px;
   background: rgba(15, 42, 92, 0.92);
   backdrop-filter: blur(12px);
   border-bottom: none;
@@ -478,7 +479,7 @@ footer { background:var(--navy); }
 .social-btn:hover { background:rgba(255,255,255,0.15); color:#fff; }
 
 /* ── RESPONSIVE ── */
-@media(max-width:960px){
+@media(max-width:1200px){
   .hero-inner, .problem-layout, .prog1-hero, .prog2-layout, .ba-grid, .about-grid, .contact-grid, .faq-wrap { grid-template-columns:1fr; gap:40px; }
   .hero-panel, .hero-panel-2 { display:none; }
   .steps-grid, .outcomes-grid { grid-template-columns:1fr; }
@@ -522,15 +523,15 @@ section, #hero {
 
 /* Dot nav — fixed on the right */
 .page-dots {
-  position: fixed;
-  right: 20px;
-  top: 50%;
+  position: auto;
+  right: 0px;
+  top: 5%;
   transform: translateY(-50%);
   z-index: 150;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 10px;
+  gap: 0px;
   pointer-events: none;
   height: 0; /* no layout height */
   overflow: visible;
@@ -544,21 +545,21 @@ section, #hero {
 .page-dot-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 0px 0;
   position: relative;
 }
 
 .page-dot {
   display: block;
-  width: 8px;
-  height: 8px;
+  width: 0px;
+  height: 0px;
   border-radius: 50%;
   background: var(--border);
-  border: 1.5px solid var(--ink-light);
+  border: 0px solid var(--ink-light);
   transition: all 0.25s ease;
   flex-shrink: 0;
 }
@@ -566,8 +567,8 @@ section, #hero {
 .page-dot-btn.active .page-dot {
   background: var(--blue);
   border-color: var(--blue);
-  width: 10px;
-  height: 10px;
+  width: 0px;
+  height: 0px;
 }
 
 .page-dot-btn:hover .page-dot {
@@ -595,19 +596,19 @@ section, #hero {
 }
 
 .page-dot-label.visible {
-  opacity: 1;
+  opacity: 0;
   transform: translateX(0);
 }
 
 /* Up/Down arrow buttons — bottom right corner */
 .page-arrows {
   position: fixed;
-  bottom: 28px;
-  right: 20px;
+  bottom: 0px;
+  right: 0px;
   z-index: 150;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0px;
   pointer-events: none;
   height: 0;
   overflow: visible;
@@ -618,10 +619,10 @@ section, #hero {
 }
 
 .page-arrow-btn {
-  width: 36px;
-  height: 36px;
+  width: 0px;
+  height: 0px;
   border-radius: 50%;
-  border: 1.5px solid var(--border);
+  border: 0px solid var(--border);
   background: var(--white);
   color: var(--navy);
   font-size: 0.9rem;
@@ -809,7 +810,7 @@ section, #hero {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding-top: 68px;
+  padding-top: 10px;
   overflow: hidden;
   margin-top: 0;
 }
@@ -1182,12 +1183,18 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   }
 
   /* ── TESTIMONIALS ── */
-  #testimonials, #testimonials-video {
-    height: auto !important;
+  #testimonials-video {
+    height: 100vh !important;
     overflow: visible !important;
     min-height: 100svh !important;
     padding-bottom: 40px !important;
   }
+  #testimonials {
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+  
   /* Carousel arrows visible */
   .tm-arrow {
     width: 36px !important;
@@ -1268,6 +1275,12 @@ html, body { overflow-x: hidden; max-width: 100vw; }
     grid-template-columns: 1fr !important;
     gap: 32px !important;
   }
+  #contact {
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
   .form-row { grid-template-columns: 1fr !important; }
   .form-box { padding: 20px 16px !important; }
 
@@ -1278,7 +1291,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   /* ── GENERAL ── */
   .section-title { font-size: clamp(1.4rem, 6vw, 2rem) !important; }
   .container { padding: 0 4% !important; }
-  section { padding-top: 60px !important; padding-bottom: 40px !important; }
+  section { padding-top: 0px !important; padding-bottom: 30px !important; }
 }
 
 /* ── TABLET (960px) ── */

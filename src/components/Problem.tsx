@@ -49,7 +49,7 @@ export default function Problem() {
         style={{
           width: '100%',
           maxWidth: '100%',
-          padding: '88px 3% 32px',
+          padding: '55px 3% 32px',
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',

@@ -148,7 +148,7 @@ export default function About() {
             <div>
               <div style={{ fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#8a7a60', marginBottom: 8 }}>His Approach</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                {['🧠 Structured Thinking', '⚙️ AI-Enabled Workflows', '🎯 Outcome Execution'].map(t => (
+                {['Structured Thinking', 'AI-Enabled Workflows', 'Outcome Execution'].map(t => (
                   <span key={t} style={{
                     fontSize: '0.65rem', fontWeight: 600,
                     padding: '4px 11px',

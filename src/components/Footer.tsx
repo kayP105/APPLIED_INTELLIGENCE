@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer>
+    <footer id="footer">
       <div className="footer-top container">
         <div>
           <div className="footer-logo-txt">Applied<span>Intelligence</span> Academy</div>

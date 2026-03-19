@@ -16,13 +16,13 @@ const SECTIONS = [
   { id: 'faq',            label: 'FAQ' },
   { id: 'cta',            label: 'CTA'},
   { id: 'contact',        label: 'Contact' },
+  { id: 'footer',label:'footer'},
 ]
 
 export default function PageScroller() {
   const [activeIdx, setActiveIdx] = useState(0)
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const [visible, setVisible] = useState(true)
-
   // Track active section via IntersectionObserver
   useEffect(() => {
     const observers: IntersectionObserver[] = []
@@ -35,7 +35,7 @@ export default function PageScroller() {
         ([entry]) => {
           if (entry.isIntersecting) setActiveIdx(i)
         },
-        { threshold: 0.35 }
+        { threshold: 0.1 }
       )
       obs.observe(el)
       observers.push(obs)
@@ -46,7 +46,7 @@ export default function PageScroller() {
 
   // Hide dots when nav is open on mobile or when over footer
   useEffect(() => {
-    const footer = document.querySelector('footer')
+    const footer = document.getElementById('footer')
     if (!footer) return
     const obs = new IntersectionObserver(
       ([entry]) => setVisible(!entry.isIntersecting),
@@ -62,32 +62,69 @@ export default function PageScroller() {
   }, [])
 
   // Arrow key navigation
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      // Don't hijack keys when typing in form fields
-      const tag = (e.target as HTMLElement).tagName
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return
+ useEffect(() => {
+  const onKey = (e: KeyboardEvent) => {
+    const tag = (e.target as HTMLElement).tagName
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return
 
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-        e.preventDefault()
-        setActiveIdx(prev => {
-          const next = Math.min(prev + 1, SECTIONS.length - 1)
-          scrollTo(next)
-          return next
-        })
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+      e.preventDefault()
+      
+      const currentEl = document.getElementById(SECTIONS[activeIdx].id)
+      
+      // Only scroll within section if it's actually scrollable AND not near bottom
+      if (currentEl) {
+        const isScrollable = currentEl.scrollHeight > currentEl.clientHeight + 5
+        const atBottom = currentEl.scrollHeight - currentEl.scrollTop - currentEl.clientHeight < 50
+        
+        if (isScrollable && !atBottom) {
+          currentEl.scrollBy({ top: 300, behavior: 'smooth' })
+          return
+        }
+        // If at bottom of scrollable section, reset its scroll and go next
+        if (isScrollable && atBottom) {
+          setActiveIdx(prev => {
+            const next = Math.min(prev + 1, SECTIONS.length - 1)
+            scrollTo(next)
+            return next
+          })
+          return
+        }
       }
-      if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        e.preventDefault()
-        setActiveIdx(prev => {
-          const next = Math.max(prev - 1, 0)
-          scrollTo(next)
-          return next
-        })
-      }
+
+      // Not scrollable — just go to next section
+      setActiveIdx(prev => {
+        const next = Math.min(prev + 1, SECTIONS.length - 1)
+        scrollTo(next)
+        return next
+      })
     }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [scrollTo])
+
+    if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault()
+
+      const currentEl = document.getElementById(SECTIONS[activeIdx].id)
+
+      if (currentEl) {
+        const isScrollable = currentEl.scrollHeight > currentEl.clientHeight + 5
+        const atTop = currentEl.scrollTop < 50
+
+        if (isScrollable && !atTop) {
+          currentEl.scrollBy({ top: -300, behavior: 'smooth' })
+          return
+        }
+      }
+
+      setActiveIdx(prev => {
+        const next = Math.max(prev - 1, 0)
+        scrollTo(next)
+        return next
+      })
+    }
+  }
+  window.addEventListener('keydown', onKey)
+  return () => window.removeEventListener('keydown', onKey)
+}, [scrollTo, activeIdx])
 
   if (!visible) return null
 

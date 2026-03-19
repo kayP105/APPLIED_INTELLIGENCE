@@ -8,21 +8,21 @@ const steps = [
     title: 'Pilot Cohort',
     body: 'Begin with 10–15 volunteer students. Full program execution with structured feedback collection. You receive a complete outcome report before deciding anything further.',
     tags: ['10–15 students', 'Full program', 'Outcome report', 'No long-term commitment'],
-    icon: '🚀',
+    icon: '',
   },
   {
     num: 2,
     title: 'Full Batch Rollout',
     body: 'Scale across departments and batches. Standardised delivery ensures every cohort receives the same structured experience with consistent outcomes and quality.',
     tags: ['Batch-wise execution', 'Multi-department', 'Scalable model'],
-    icon: '📈',
+    icon: '',
   },
   {
     num: 3,
     title: 'Outcome Tracking',
     body: 'Student output quality, interview scorecard data, and cohort-level insights all documented and shared. Data you can use for placement reporting and accreditation.',
     tags: ['Per-student data', 'Performance insights', 'Institutional report'],
-    icon: '📊',
+    icon: '',
   },
 ]
 
@@ -51,7 +51,7 @@ export default function Delivery() {
         paddingTop: 68,
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden',
+        overflow: 'auto',
         fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}
     >

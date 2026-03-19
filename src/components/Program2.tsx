@@ -106,7 +106,7 @@ export default function Program2() {
         background: '#fdf6e3',
         display: 'flex',
         flexDirection: 'column',
-        overflow: isMobile ? 'visible' : 'hidden',
+        overflow: isMobile ? 'visible' : 'auto',
         paddingBottom: isMobile ? 40 : 0,
         fontFamily: "'Plus Jakarta Sans', sans-serif",
       }}

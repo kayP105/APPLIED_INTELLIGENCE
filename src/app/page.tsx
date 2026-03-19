@@ -20,7 +20,7 @@ export default function Home() {
     <>
       <Splash />
       <Nav />
-      <PageScroller />
+      <PageScroller/>
       <main>
         <Hero />
         <Problem />
@@ -33,8 +33,8 @@ export default function Home() {
         <FAQ />
         <CTA />
         <Contact />
+        <Footer />
       </main>
-      <Footer />
     </>
   )
 }
