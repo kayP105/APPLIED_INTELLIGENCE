@@ -51,6 +51,16 @@ const outcomes = [
   { icon: '📈', title: 'Stand out from peers', body: 'Prove skills with a real portfolio while others just talk about them.' },
 ]
 
+// ── Update filenames to match your /public directory ──
+const outcomeImages = [
+  '/outcome-1.jpg',
+  '/outcome-2.jpg',
+  '/outcome-3.jpg',
+  '/outcome-4.jpg',
+  '/outcome-5.jpg',
+  '/outcome-6.jpg',
+]
+
 const weekColors = ['#f9d5c5','#d5e8c5','#c5d5f0','#f0e6c5','#d5c5f0','#c5f0e8']
 const weekTextColors = ['#7a3010','#2a5a10','#1a3a7a','#6a4a10','#3a1a7a','#0a5a48']
 
@@ -88,9 +98,7 @@ export default function Program1() {
   return (
     <>
       <style>{`
-        /* ── RESPONSIVE OVERRIDES ── */
-
-        /* Page 1 */
+        /* ── PAGE 1 responsive ── */
         @media (max-width: 767px) {
           .p1-grid { grid-template-columns: 1fr !important; }
           .p1-section { padding: 80px 4% 32px !important; min-height: auto !important; align-items: flex-start !important; }
@@ -98,50 +106,90 @@ export default function Program1() {
           .p1-deliverables { grid-template-columns: 1fr !important; }
         }
 
-        /* Page 2 outcomes */
+        /* ── Outcome cards — base (desktop) ── */
         .p2-outcomes-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 10px;
         }
+        .outcome-card {
+          display: flex;
+          overflow: hidden;
+        }
+        .outcome-card-image {
+          flex-shrink: 0;
+          width: 36%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 10px 12px;
+        }
+        .outcome-card-image img {
+          width: 100%;
+          max-height: 110px;
+          object-fit: contain;
+          border-radius: 4px;
+          display: block;
+        }
+        .outcome-card-text {
+          flex: 1;
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 4px;
+          padding: 12px 16px;
+        }
+
+        /* ── Mobile overrides ── */
         @media (max-width: 767px) {
+          #program1-outcomes {
+            height: auto !important;
+            min-height: unset !important;
+            overflow: visible !important;
+          }
           .p2-page {
             height: auto !important;
-            min-height: 100vh;
-            overflow-y: auto !important;
+            overflow-y: visible !important;
           }
           .p2-header { height: auto !important; padding: 16px 4% !important; }
-          .p2-timeline { padding: 16px 4% !important; flex: none !important; }
+          .p2-timeline {
+            padding: 12px 4% !important;
+            flex: none !important;
+            overflow-y: visible !important;
+          }
           .p2-outcomes-grid {
             grid-template-columns: 1fr !important;
+            height: auto !important;
           }
           .p2-spine { display: none !important; }
-          .p2-stats {
-            height: auto !important;
-            padding: 16px 4% !important;
-            grid-template-columns: repeat(2, 1fr) !important;
-            row-gap: 12px !important;
-          }
           .p2-stats-inner {
             grid-template-columns: repeat(2, 1fr) !important;
             row-gap: 14px !important;
             padding: 8px 4% !important;
           }
-          #program1-outcomes {
-            height: auto !important;
-            min-height: unset !important;
+          /* On mobile: keep row layout but shrink image panel */
+          .outcome-card {
+            flex-direction: row !important;
+            min-height: 80px;
+          }
+          .outcome-card-image {
+            width: 25% !important;
+            padding: 8px 8px !important;
+            border-right: 1px solid rgba(221,214,200,0.5) !important;
+            border-left: none !important;
+            border-bottom: none !important;
+          }
+          .outcome-card-image img {
+            max-height: 64px !important;
+          }
+          .outcome-card-text {
+            padding: 10px 12px !important;
+            justify-content: flex-start !important;
           }
         }
 
-        /* Outcome card animations */
-        @keyframes fadeInLeft {
-          from { opacity: 0; transform: translateX(-20px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes fadeInRight {
-          from { opacity: 0; transform: translateX(20px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
+        /* ── Animations ── */
         @keyframes spineGrow {
           from { transform: translateX(-50%) scaleY(0); }
           to   { transform: translateX(-50%) scaleY(1); }
@@ -276,7 +324,7 @@ export default function Program1() {
           </h2>
         </div>
 
-        {/* OUTCOMES GRID — 2 columns desktop, 1 column mobile */}
+        {/* OUTCOMES GRID */}
         <div className="p2-timeline" style={{
           flex: 1,
           minHeight: 0,
@@ -304,6 +352,7 @@ export default function Program1() {
               return (
                 <div
                   key={i}
+                  className="outcome-card"
                   style={{
                     background: 'rgba(217,244,248,0.88)',
                     backdropFilter: 'blur(6px)',
@@ -312,12 +361,8 @@ export default function Program1() {
                     borderTop: '1px solid rgba(221,214,200,0.7)',
                     borderBottom: '1px solid rgba(221,214,200,0.7)',
                     borderRadius: isLeft ? '0 6px 6px 0' : '6px 0 0 6px',
-                    padding: '12px 16px',
                     boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 4,
-                    // Transition-based animation
+                    flexDirection: isLeft ? 'row' : 'row-reverse',
                     opacity: tlVisible ? 1 : 0,
                     transform: tlVisible
                       ? 'translateX(0)'
@@ -325,14 +370,28 @@ export default function Program1() {
                     transition: `opacity 0.45s ease ${0.1 + i * 0.1}s, transform 0.45s ease ${0.1 + i * 0.1}s`,
                   }}
                 >
-                  <div style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1b348f', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-                    {String(i + 1).padStart(2, '0')}
+                  {/* Image panel */}
+                  <div
+                    className="outcome-card-image"
+                    style={{
+                      borderLeft: isLeft ? 'none' : '1px solid rgba(221,214,200,0.5)',
+                      borderRight: isLeft ? '1px solid rgba(221,214,200,0.5)' : 'none',
+                    }}
+                  >
+                    <img src={outcomeImages[i]} alt={o.title} />
                   </div>
-                  <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1a1208', lineHeight: 1.25, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-                    {o.title}
-                  </div>
-                  <div style={{ fontSize: '0.72rem', color: '#3a2e1e', lineHeight: 1.5, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-                    {o.body}
+
+                  {/* Text panel */}
+                  <div className="outcome-card-text">
+                    <div style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1b348f', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+                      {String(i + 1).padStart(2, '0')}
+                    </div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1a1208', lineHeight: 1.25, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+                      {o.title}
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: '#3a2e1e', lineHeight: 1.5, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+                      {o.body}
+                    </div>
                   </div>
                 </div>
               )

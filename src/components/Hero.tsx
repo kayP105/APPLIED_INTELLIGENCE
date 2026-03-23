@@ -15,19 +15,16 @@ export default function Hero() {
 
         {/* ── LEFT COLUMN ── */}
         <div className="hero-new-left">
-          <div className="hero-new-tag">🎓 For MBA · BBA · Management Students</div>
+          <div className="hero-new-tag"> For Management · Commerce · Non Engineering Students</div>
 
           <h1 className="hero-new-h1">
             AI skills built for<br />
             <span className="hero-new-accent">non-engineers</span><br />
-            who need to get hired.
+            Built to get hired.
           </h1>
 
           <p className="hero-new-body">
-            Most AI programs are designed for people who build AI.
-            Applied Intelligence Academy is designed for the majority which are the
-            management and commerce students who need to <em>use</em> AI
-            effectively at work from Day 1.
+            Most AI programs are designed for people who build AI. Applied Intelligence Academy is designed for the majority - management and commerce students who need to confidently navigate the AI-driven world of work from Day 1
           </p>
 
           <div className="hero-new-ctas">
@@ -78,7 +75,7 @@ export default function Hero() {
           {/* Interview Lab card */}
           <div className="hero-card-green">
             <div className="hero-card-green-tag">Also Available</div>
-            <h4>MBA Interview Acceleration Lab</h4>
+            <h4>Interview Acceleration Lab</h4>
             <p>Structured mock interviews, scorecards, and measurable improvement for placement season.</p>
             <a href="#program2" onClick={e => smoothScroll(e, '#program2')} className="hero-card-green-link">
               Learn more →

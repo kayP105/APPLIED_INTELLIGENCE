@@ -55,19 +55,6 @@ const phases = [
       'Structured gap ensures consolidation, not short-term correction',
     ],
   },
-  {
-    num: '04',
-    label: 'Full Rollout Model',
-    title: '360 Students · 6 Batches',
-    duration: '1 batch per week · 60 students per batch',
-    accent: '#0f023d',
-    bg: '#ffffff',
-    items: [
-      'Institutional performance report per batch',
-      'Consolidated cohort insights shared with placement team',
-      'Evaluation team: Regional Managers, Senior Recruiters, Business Heads',
-    ],
-  },
 ]
 
 const specialisations = ['Finance', 'International Finance', 'Marketing', 'Sales', 'Human Resources', 'Data Analytics']
@@ -128,9 +115,7 @@ export default function Program2() {
         .p2-card-0 { animation: p2FadeUp 0.45s ease 0.10s both; }
         .p2-card-1 { animation: p2FadeUp 0.45s ease 0.20s both; }
         .p2-card-2 { animation: p2FadeUp 0.45s ease 0.30s both; }
-        .p2-card-3 { animation: p2FadeUp 0.45s ease 0.40s both; }
       `}</style>
- 
 
       {/* ── HEADER — matches Program1 outcomes header style ── */}
       <div style={{
@@ -161,7 +146,7 @@ export default function Program2() {
         }}>
           {/* Col 1: description + specialisations */}
           <div>
-            <p style={{ fontSize: '0.9rem', color: '#4a3e2e', lineHeight: 1.6, margin: '0 0 7px' }}>
+            <p style={{ fontSize: '0.8rem', color: '#4a3e2e', lineHeight: 1.6, margin: '0 0 7px' }}>
               A structured, specialisation sensitive interview readiness program designed to prepare Management students for corporate placements with measurable improvement between two scored rounds.
             </p>
             <div style={{
@@ -171,18 +156,19 @@ export default function Program2() {
               padding: '7px 11px',
               marginBottom: 7,
             }}>
-              <p style={{ fontSize: '1.0rem', color: '#498088', lineHeight: 1.55, margin: 0 }}>
+              <p style={{ fontSize: '0.8rem', color: '#498088', lineHeight: 1.55, margin: 0 }}>
                 Recruiters don&apos;t just assess subject knowledge. They assess{' '}
                 <strong>structured thinking, clarity of articulation, professional presence, business awareness, and composure under pressure.</strong>
               </p>
             </div>
-            <p style={{ fontSize: '0.9rem', color: '#4a3e2e', lineHeight: 1.55, margin: '0 0 8px' }}>
+            <p style={{ fontSize: '0.8rem', color: '#4a3e2e', lineHeight: 1.55, margin: '0 0 8px' }}>
               This program is built around exactly those criteria.
             </p>
+            <p style={{fontSize: '0.8rem',color: '#4a3e2e'}}>Specialisation Tracks:</p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {specialisations.map(s => (
                 <span key={s} style={{
-                  fontSize: '0.6rem', fontWeight: 600, padding: '3px 9px',
+                  fontSize: '0.8rem', fontWeight: 600, padding: '3px 9px',
                   background: '#ede8d8', color: '#4a3a28', borderRadius: 3,
                   border: '1px solid #d8d0bc',
                 }}>
@@ -194,12 +180,12 @@ export default function Program2() {
 
           {/* Col 2: learning outcomes */}
           <div>
-            <div style={{ fontSize: '1.0rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8a7a60', marginBottom: 5 }}>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8a7a60', marginBottom: 5 }}>
               Learning Outcomes
             </div>
             <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {outcomes.map(o => (
-                <li key={o} style={{ display: 'flex', gap: 6, alignItems: 'flex-start', fontSize: '0.9rem', color: '#3a3020', lineHeight: 1.4 }}>
+                <li key={o} style={{ display: 'flex', gap: 6, alignItems: 'flex-start', fontSize: '0.8rem', color: '#3a3020', lineHeight: 1.4 }}>
                   <span style={{ color: '#0a6b5a', fontWeight: 700, flexShrink: 0 }}>✓</span>
                   {o}
                 </li>
@@ -216,7 +202,7 @@ export default function Program2() {
                 color: '#fff',
                 fontFamily: "'Plus Jakarta Sans', sans-serif",
                 fontWeight: 700,
-                fontSize: '0.73rem',
+                fontSize: '0.8rem',
                 padding: '10px 20px',
                 textDecoration: 'none',
                 borderRadius: 4,
@@ -225,7 +211,7 @@ export default function Program2() {
             >
               Enquire About Interview Lab →
             </a>
-            <div style={{ fontSize: '0.6rem', color: '#8a7a60', lineHeight: 1.5 }}>
+            <div style={{ fontSize: '0.8rem', color: '#8a7a60', lineHeight: 1.5 }}>
               India-wide · Online &amp; On-Campus<br />
               Pilot cohort payable post execution
             </div>
@@ -233,14 +219,14 @@ export default function Program2() {
         </div>
       </div>
 
-        {/* ── 4 CARDS HORIZONTAL ── */}
+      {/* ── 3 CARDS HORIZONTAL ── */}
       <div style={{
         flex: 1,
         minHeight: 0,
         display: 'grid',
-        gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
-        gap: 12,
-        padding: isMobile ? '14px 4% 20px' : '14px 4%',
+        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+        gap: 16,
+        padding: isMobile ? '14px 4% 20px' : '16px 4%',
         boxSizing: 'border-box',
       }}>
         {phases.map((p, i) => (
@@ -252,12 +238,11 @@ export default function Program2() {
               border: '1px solid #e8e0d0',
               borderTop: `3px solid ${p.accent}`,
               borderRadius: 6,
-              padding: '14px 16px',
+              padding: '18px 20px',
               display: 'flex',
               flexDirection: 'column',
-              gap: 10,
+              gap: 12,
               boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-              // fade-in on scroll
               opacity: visible ? 1 : 0,
               transform: visible ? 'translateY(0)' : 'translateY(18px)',
             }}
@@ -266,14 +251,14 @@ export default function Program2() {
             <div>
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 }}>
                 <span style={{
-                  fontSize: '0.57rem', fontWeight: 700, letterSpacing: '0.1em',
+                  fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em',
                   textTransform: 'uppercase', color: p.accent, lineHeight: 1.3,
                 }}>
                   {p.label}
                 </span>
                 <span style={{
                   fontFamily: "'Playfair Display', serif",
-                  fontSize: '1.8rem', fontWeight: 900,
+                  fontSize: '2rem', fontWeight: 900,
                   color: p.accent, opacity: 0.1, lineHeight: 1, flexShrink: 0,
                 }}>
                   {p.num}
@@ -281,36 +266,36 @@ export default function Program2() {
               </div>
               <div style={{
                 fontFamily: "'Playfair Display', serif",
-                fontSize: '0.95rem', fontWeight: 800,
-                color: '#1a1208', lineHeight: 1.2, marginBottom: 5,
+                fontSize: '1.05rem', fontWeight: 800,
+                color: '#1a1208', lineHeight: 1.2, marginBottom: 6,
               }}>
                 {p.title}
               </div>
               <span style={{
                 display: 'inline-block',
-                fontSize: '0.58rem', fontWeight: 600,
+                fontSize: '0.62rem', fontWeight: 600,
                 color: p.accent,
                 background: `${p.accent}12`,
                 border: `1px solid ${p.accent}22`,
-                padding: '2px 7px', borderRadius: 3,
+                padding: '2px 8px', borderRadius: 3,
               }}>
                 {p.duration}
               </span>
             </div>
- 
+
             {/* Divider */}
             <div style={{ height: 1, background: '#e8e0d0', flexShrink: 0 }} />
- 
+
             {/* Items */}
-            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
+            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 9 }}>
               {p.items.map(item => (
                 <li key={item} style={{
-                  display: 'flex', gap: 8, alignItems: 'flex-start',
-                  fontSize: '0.67rem', color: '#3a3020', lineHeight: 1.45,
+                  display: 'flex', gap: 9, alignItems: 'flex-start',
+                  fontSize: '0.8rem', color: '#3a3020', lineHeight: 1.5,
                 }}>
                   <span style={{
                     width: 5, height: 5, borderRadius: '50%',
-                    background: p.accent, flexShrink: 0, marginTop: 5,
+                    background: p.accent, flexShrink: 0, marginTop: 6,
                   }} />
                   {item}
                 </li>
@@ -319,7 +304,7 @@ export default function Program2() {
           </div>
         ))}
       </div>
- 
+
     </div>
   )
 }

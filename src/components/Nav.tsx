@@ -22,7 +22,11 @@ export default function Nav() {
     <>
       <nav id="navbar" className={scrolled ? 'scrolled' : ''}>
         <a className="logo-wrap" href="#">
-          <div className="logo-text">Applied<span>Intelligence</span> Academy</div>
+          <div className="logo-text">
+            <span style={{ color: '#38b2c5' }}>A</span>pplied
+            <span style={{ color: '#38b2c5' }}>I</span>ntelligence{' '}
+            <span style={{ color: '#38b2c5' }}>Academy</span>
+          </div>
         </a>
         <ul className="nav-links">
           <li><a href="#program1" onClick={e => smoothScroll(e, '#program1')}>AI Certification</a></li>
@@ -47,7 +51,7 @@ export default function Nav() {
         <a href="#delivery" onClick={e => smoothScroll(e, '#delivery')}>How It Works</a>
         <a href="#about" onClick={e => smoothScroll(e, '#about')}>About the team</a>
         <a href="#faq" onClick={e => smoothScroll(e, '#faq')}>FAQ</a>
-        <a href="#contact" onClick={e => smoothScroll(e, '#contact')} className="mob-cta">🚀 Request Pilot Program</a>
+        <a href="#contact" onClick={e => smoothScroll(e, '#contact')} className="mob-cta">Request Pilot Program</a>
       </div>
     </>
   )

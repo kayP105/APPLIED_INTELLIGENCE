@@ -127,14 +127,14 @@ nav.scrolled { border-bottom-color: rgba(255,255,255,0.12); box-shadow: 0 2px 20
 
 .mobile-menu {
   display:none; position:fixed; top:68px; left:0; right:0; bottom:0; z-index:199;
-  background: rgba(50, 32, 14, 0.97); padding:24px 5% 40px;
+  background: rgba(20, 30, 73, 0.94); padding:24px 5% 40px;
   flex-direction:column; gap:0; overflow-y:auto;
   border-top: 1px solid rgba(255,255,255,0.1);
 }
 .mobile-menu.open { display:flex; }
 .mobile-menu a { color:rgba(255,255,255,0.80); text-decoration:none; font-size:1rem; font-weight:600; padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.1); transition:color 0.2s; }
 .mobile-menu a:hover { color:#fff; }
-.mobile-menu .mob-cta { margin-top:24px; background:var(--pastel-green); color:#000000; text-align:center; border-radius:4px; font-weight:700; border:none; padding:14px; }
+.mobile-menu .mob-cta { margin-top:24px; background:#c5d9e0; color:#000000; text-align:center; border-radius:4px; font-weight:700; border:none; padding:14px; }
 
 /* ── HERO (old styles — kept minimal, new hero uses hero-new classes) ── */
 .hero-bg { display: none; }
@@ -864,9 +864,9 @@ section, #hero {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(212, 237, 218, 0.25);
+  background: rgba(110, 197, 207, 0.25);
   border: 1px solid rgba(212, 237, 218, 0.5);
-  color: #e8f8ed;
+  color: #bee6f4;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -897,14 +897,27 @@ section, #hero {
 }
 
 .hero-new-accent {
-  color: #a8f0c0;
+  color: #7eccd1;
 }
 
 .hero-new-body {
-  font-size: 1.08rem;
+  /* Your requested styles */
+  font-size: 1.0rem;
   color: rgba(255, 255, 255, 0.90);
   line-height: 1.8;
   margin: 0;
+
+  /* The "Glass" Box styles */
+  background: rgba(255, 255, 255, 0.15); /* Very light white tint */
+  backdrop-filter: blur(12px);          /* This creates the 'soft' vibe */
+  -webkit-backdrop-filter: blur(12px);   /* Safari support */
+  
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle edge highlight */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  
+  max-width: 500px; /* Optional: keeps the text box from being too wide */
 }
 
 /* CTA buttons */
@@ -918,7 +931,7 @@ section, #hero {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--pastel-green);
+  background: #a5d9e0;
   color: var(--pastel-green-text);
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
@@ -976,7 +989,7 @@ section, #hero {
 
 /* White certification card — sharp rectangle, full white */
 .hero-card-white {
-  background: #ffffff;
+  background: #fdf6e3;
   border-radius: 0;
   overflow: hidden;
   box-shadow: 0 12px 50px rgba(0,0,0,0.22);
@@ -984,7 +997,7 @@ section, #hero {
 }
 
 .hero-card-white-header {
-  background: #fff;
+  background: #fdf6e3;
   padding: 20px 24px 14px;
   border-bottom: 1px solid #e2e8f0;
 }
@@ -1016,14 +1029,14 @@ section, #hero {
 
 /* Pastel green interview lab card — sharp rectangle */
 .hero-card-green {
-  background: var(--pastel-green);
+  background: #fdf6e3;
   border-radius: 0;
   padding: 22px 24px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.10);
 }
 
 .hero-card-green-tag {
-  background: rgba(30, 92, 56, 0.15);
+  background: rgba(65, 186, 186, 0.15);
   color: var(--pastel-green-text);
   font-size: 0.68rem;
   font-weight: 700;

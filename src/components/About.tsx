@@ -128,7 +128,7 @@ export default function About() {
 
             {/* Evaluation Team */}
             <div>
-              <div style={{ fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#8a7a60', marginBottom: 8 }}>Evaluation Team Includes</div>
+              <div style={{ fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#8a7a60', marginBottom: 8 }}>The Team at Applied Intelligence Includes</div>
               <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
                 {[
                   'Regional Managers & Heads of Business Verticals',

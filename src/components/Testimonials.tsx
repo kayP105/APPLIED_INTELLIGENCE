@@ -201,7 +201,7 @@ export default function Testimonials() {
                 Student Voices
               </div>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,2.8vw,2.3rem)', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.1 }}>
-                What MBA students say.
+                What students say.
               </h2>
             </div>
             {!isMobile && (
