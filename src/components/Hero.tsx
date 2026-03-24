@@ -19,7 +19,7 @@ export default function Hero() {
 
           <h1 className="hero-new-h1">
             AI skills built for<br />
-            <span className="hero-new-accent">non-engineers</span><br />
+            <span className="hero-new-accent">non-engineers.</span><br />
             Built to get hired.
           </h1>
 

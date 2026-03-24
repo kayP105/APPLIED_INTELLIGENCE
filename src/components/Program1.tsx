@@ -316,9 +316,21 @@ export default function Program1() {
           background: 'rgba(253,246,227,0.6)',
           backdropFilter: 'blur(8px)',
         }}>
-          <div style={{ fontSize: '0.7rem', letterSpacing: '0.16em', color: '#8a7a60', marginBottom: 2, fontFamily: "'Plus Jakarta Sans',sans-serif", textTransform: 'uppercase', fontWeight: 800 }}>
-            What Students Gain
-          </div>
+          <div style={{
+                fontFamily: "'Playfair Display', serif",
+                fontStyle: 'italic',
+                fontSize: '0.68rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: '#8a7450',
+                marginBottom: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+              }}>
+                <span style={{ width: 24, height: 1, background: '#8a7450', flexShrink: 0, display: 'inline-block' }} />
+                What Students Gain
+              </div>
           <h2 style={{ fontSize: 'clamp(1.2rem,2vw,1.6rem)', fontWeight: 900, color: '#1a1208', margin: 0, fontFamily: "'Playfair Display',serif", lineHeight: 1.1 }}>
             After 6 weeks, your students will:
           </h2>

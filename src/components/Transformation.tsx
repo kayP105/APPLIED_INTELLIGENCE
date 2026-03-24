@@ -127,13 +127,20 @@ export default function Transformation() {
           transition: 'opacity 0.55s ease 0.05s, transform 0.55s ease 0.05s',
         }}>
           <div style={{
-            fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.18em',
-            textTransform: 'uppercase', color: '#5a4a30', marginBottom: 6,
-            display: 'flex', alignItems: 'center', gap: 8,
-          }}>
-            <span style={{ width: 20, height: 1.5, background: '#5a4a30', display: 'inline-block' }} />
-            The Transformation
-          </div>
+                fontFamily: "'Playfair Display', serif",
+                fontStyle: 'italic',
+                fontSize: '0.68rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: '#8a7450',
+                marginBottom: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+              }}>
+                <span style={{ width: 24, height: 1, background: '#8a7450', flexShrink: 0, display: 'inline-block' }} />
+                The Transformation
+              </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 40, alignItems: 'center' }}>
             <div>
               <h2 style={{
