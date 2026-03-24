@@ -177,7 +177,7 @@ export default function Program2() {
               ))}
             </div>
           </div>
-
+          <br></br>
           {/* Col 2: learning outcomes */}
           <div>
             <div style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8a7a60', marginBottom: 5 }}>

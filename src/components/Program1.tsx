@@ -51,7 +51,6 @@ const outcomes = [
   { icon: '📈', title: 'Stand out from peers', body: 'Prove skills with a real portfolio while others just talk about them.' },
 ]
 
-// ── Update filenames to match your /public directory ──
 const outcomeImages = [
   '/outcome-1.jpg',
   '/outcome-2.jpg',
@@ -98,12 +97,43 @@ export default function Program1() {
   return (
     <>
       <style>{`
-        /* ── PAGE 1 responsive ── */
+        /* ── PAGE 1 ── */
+
+        /* Desktop: two-column side by side */
+        .p1-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+          width: 100%;
+          align-items: start;
+        }
+
+        /* Mobile: single column, full content visible */
         @media (max-width: 767px) {
-          .p1-grid { grid-template-columns: 1fr !important; }
-          .p1-section { padding: 80px 4% 32px !important; min-height: auto !important; align-items: flex-start !important; }
-          .p1-calendar { display: none !important; }
-          .p1-deliverables { grid-template-columns: 1fr !important; }
+          .p1-section {
+            /* Remove fixed height so content can expand naturally */
+            min-height: unset !important;
+            height: auto !important;
+            /* Reset vertical centering so content starts from top */
+            align-items: flex-start !important;
+            padding: 80px 5% 40px !important;
+            overflow: visible !important;
+          }
+          .p1-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+          .p1-calendar {
+            /* Show a compact calendar on mobile instead of hiding entirely */
+            display: block !important;
+          }
+          .p1-deliverables {
+            grid-template-columns: 1fr !important;
+          }
+          .p1-stats-row {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 6px !important;
+          }
         }
 
         /* ── Outcome cards — base (desktop) ── */
@@ -141,7 +171,7 @@ export default function Program1() {
           padding: 12px 16px;
         }
 
-        /* ── Mobile overrides ── */
+        /* ── Mobile overrides for page 2 ── */
         @media (max-width: 767px) {
           #program1-outcomes {
             height: auto !important;
@@ -168,7 +198,6 @@ export default function Program1() {
             row-gap: 14px !important;
             padding: 8px 4% !important;
           }
-          /* On mobile: keep row layout but shrink image panel */
           .outcome-card {
             flex-direction: row !important;
             min-height: 80px;
@@ -197,27 +226,64 @@ export default function Program1() {
       `}</style>
 
       {/* ══ PAGE 1: Cert + Calendar ══ */}
-      <section id="program1" className="p1-section" style={{
-        position: 'relative', minHeight: '100vh', display: 'flex',
-        alignItems: 'center', padding: '72px 3% 24px',
-        boxSizing: 'border-box', overflow: 'hidden',
-      }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: "url('/program1-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center 30%' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,20,10,0.65)' }} />
+      <section
+        id="program1"
+        className="p1-section"
+        style={{
+          position: 'relative',
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '72px 3% 40px',
+          boxSizing: 'border-box',
+          // REMOVED overflow: hidden — this was clipping content on mobile
+        }}
+      >
+        {/* Background */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: "url('/program1-bg.png')",
+          backgroundSize: 'cover', backgroundPosition: 'center 30%',
+          // Prevent bg from expanding with content on mobile
+          zIndex: 0,
+        }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,20,10,0.65)', zIndex: 1 }} />
 
-        <div className="p1-grid" style={{ position: 'relative', zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, width: '100%', alignItems: 'start' }}>
+        <div
+          className="p1-grid"
+          style={{ position: 'relative', zIndex: 2 }}
+        >
 
-          {/* LEFT */}
+          {/* ── LEFT COLUMN ── */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div style={{ background: 'rgba(253,250,244,0.96)', border: '1.5px solid #9b2020', padding: '20px 24px', position: 'relative', boxShadow: '0 8px 32px rgba(0,0,0,0.25)' }}>
+
+            {/* Certificate card */}
+            <div style={{
+              background: 'rgba(253,250,244,0.96)',
+              border: '1.5px solid #9b2020',
+              padding: '20px 24px',
+              position: 'relative',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+            }}>
               <div style={{ position: 'absolute', inset: 5, border: '0.5px solid #c9a96e', pointerEvents: 'none' }} />
+
               <div style={{ textAlign: 'center', marginBottom: 12, paddingBottom: 12, borderBottom: '0.5px solid #c9a96e', position: 'relative' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#9b7040', marginBottom: 6 }}>Applied Intelligence Academy</div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#9b2020', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 10px', marginBottom: 8 }}>⭐ Programme 1</div>
-                <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.4rem,2vw,1.9rem)', fontWeight: 900, color: '#1a0f0f', lineHeight: 1.15, margin: '0 0 4px' }}>AI Productivity &amp; Career Certification</h2>
-                <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.7rem', color: '#9b7040', fontStyle: 'italic' }}>A 6-Week Professional Development Programme</div>
+                <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#9b7040', marginBottom: 6 }}>
+                  Applied Intelligence Academy
+                </div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#9b2020', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 10px', marginBottom: 8 }}>
+                  ⭐ Programme 1
+                </div>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.4rem,2vw,1.9rem)', fontWeight: 900, color: '#1a0f0f', lineHeight: 1.15, margin: '0 0 4px' }}>
+                  AI Productivity &amp; Career Certification
+                </h2>
+                <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.7rem', color: '#9b7040', fontStyle: 'italic' }}>
+                  A 6-Week Professional Development Programme
+                </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }}>
+
+              {/* Stats row — 2 cols on mobile, 4 on desktop */}
+              <div className="p1-stats-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }}>
                 {[['6','Weeks'],['12','Sessions'],['24hrs','Live'],['75–80%','Hands-on']].map(([n,l]) => (
                   <div key={l} style={{ textAlign: 'center', padding: '10px 4px', background: '#fff', border: '0.5px solid #ddd0b8' }}>
                     <div style={{ fontFamily: "'Playfair Display',serif", fontSize: '1.1rem', fontWeight: 900, color: '#9b2020', lineHeight: 1 }}>{n}</div>
@@ -227,12 +293,20 @@ export default function Program1() {
               </div>
             </div>
 
+            {/* Quote */}
             <div style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.12)', padding: '14px 18px' }}>
-              <p style={{ fontFamily: "'Playfair Display',serif", fontSize: '0.88rem', fontStyle: 'italic', color: '#fff', lineHeight: 1.6, margin: 0 }}>&ldquo;Students don&apos;t attend sessions — they <span style={{ color: '#f0c060', fontStyle: 'normal', fontWeight: 700 }}>produce output</span> in every single one.&rdquo;</p>
+              <p style={{ fontFamily: "'Playfair Display',serif", fontSize: '0.88rem', fontStyle: 'italic', color: '#fff', lineHeight: 1.6, margin: 0 }}>
+                &ldquo;Students don&apos;t attend sessions — they{' '}
+                <span style={{ color: '#f0c060', fontStyle: 'normal', fontWeight: 700 }}>produce output</span>{' '}
+                in every single one.&rdquo;
+              </p>
             </div>
 
+            {/* Deliverables */}
             <div>
-              <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginBottom: 8 }}>What Every Student Builds &amp; Leaves With</div>
+              <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginBottom: 8 }}>
+                What Every Student Builds &amp; Leaves With
+              </div>
               <div className="p1-deliverables" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5 }}>
                 {deliverables.map(d => (
                   <div key={d} style={{ background: 'rgba(255,255,255,0.88)', padding: '5px 10px', fontSize: '0.72rem', color: '#1a0f0f', fontFamily: "'Plus Jakarta Sans',sans-serif", display: 'flex', gap: 7 }}>
@@ -243,42 +317,95 @@ export default function Program1() {
               </div>
             </div>
 
+            {/* CTAs */}
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-              <a href="#contact" style={{ background: '#9b2020', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: '0.78rem', padding: '10px 22px', textDecoration: 'none' }}>Request Pilot →</a>
-              <a href="#contact" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 600, fontSize: '0.78rem', padding: '10px 22px', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.35)' }}>Download Curriculum</a>
+              <a href="#contact" style={{ background: '#9b2020', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: '0.78rem', padding: '10px 22px', textDecoration: 'none' }}>
+                Request Pilot →
+              </a>
+              <a href="#contact" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 600, fontSize: '0.78rem', padding: '10px 22px', textDecoration: 'none', border: '1px solid rgba(255,255,255,0.35)' }}>
+                Download Curriculum
+              </a>
             </div>
           </div>
 
-          {/* RIGHT — Calendar (hidden on mobile) */}
+          {/* ── RIGHT COLUMN — Calendar (compact on mobile, full on desktop) ── */}
           <div className="p1-calendar" style={{ background: 'rgba(255,255,255,0.95)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)', overflow: 'hidden' }}>
+
+            {/* Calendar header */}
             <div style={{ background: '#1a0f0f', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#c9a96e', marginBottom: 2 }}>6-Week Programme</div>
-                <div style={{ fontFamily: "'Playfair Display',serif", fontSize: '1rem', fontWeight: 700, color: '#fdfaf4' }}>Session Calendar</div>
+                <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#c9a96e', marginBottom: 2 }}>
+                  6-Week Programme
+                </div>
+                <div style={{ fontFamily: "'Playfair Display',serif", fontSize: '1rem', fontWeight: 700, color: '#fdfaf4' }}>
+                  Session Calendar
+                </div>
               </div>
-              <div style={{ display: 'flex', gap: 5 }}>
+              <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: 180 }}>
                 {weeks.map((w, i) => (
-                  <button key={w.code} onClick={() => setActiveWeek(i)} style={{ width: 26, height: 26, borderRadius: '50%', border: activeWeek === i ? `2px solid ${weekColors[i]}` : '1px solid rgba(255,255,255,0.15)', background: activeWeek === i ? weekColors[i] : 'transparent', color: activeWeek === i ? weekTextColors[i] : 'rgba(255,255,255,0.5)', fontSize: '0.62rem', fontWeight: 700, cursor: 'pointer', fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s' }}>{w.num}</button>
+                  <button
+                    key={w.code}
+                    onClick={() => setActiveWeek(i)}
+                    style={{
+                      width: 26, height: 26, borderRadius: '50%',
+                      border: activeWeek === i ? `2px solid ${weekColors[i]}` : '1px solid rgba(255,255,255,0.15)',
+                      background: activeWeek === i ? weekColors[i] : 'transparent',
+                      color: activeWeek === i ? weekTextColors[i] : 'rgba(255,255,255,0.5)',
+                      fontSize: '0.62rem', fontWeight: 700, cursor: 'pointer',
+                      fontFamily: "'Plus Jakarta Sans',sans-serif", transition: 'all 0.2s',
+                    }}
+                  >
+                    {w.num}
+                  </button>
                 ))}
               </div>
             </div>
+
+            {/* Week grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)' }}>
               {weeks.map((w, i) => (
-                <div key={w.code} onClick={() => setActiveWeek(i)} style={{ padding: '10px 12px', borderRight: i%3!==2 ? '1px solid #ede8e0' : 'none', borderBottom: i<3 ? '1px solid #ede8e0' : 'none', cursor: 'pointer', background: activeWeek===i ? weekColors[i] : '#fff', transition: 'background 0.2s' }}>
-                  <span style={{ display: 'inline-block', background: activeWeek===i ? weekTextColors[i] : '#e8e2d8', color: activeWeek===i ? '#fff' : '#6a5a48', fontSize: '0.5rem', fontWeight: 800, padding: '1px 5px', marginBottom: 4, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>{w.code}</span>
-                  <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.7rem', fontWeight: 700, color: activeWeek===i ? weekTextColors[i] : '#1a0f0f', lineHeight: 1.25 }}>{w.title}</div>
-                  <div style={{ fontSize: '0.58rem', color: activeWeek===i ? weekTextColors[i] : '#9b7040', marginTop: 2, fontFamily: "'Plus Jakarta Sans',sans-serif", fontStyle: 'italic', opacity: 0.8 }}>{w.sub}</div>
+                <div
+                  key={w.code}
+                  onClick={() => setActiveWeek(i)}
+                  style={{
+                    padding: '10px 12px',
+                    borderRight: i%3!==2 ? '1px solid #ede8e0' : 'none',
+                    borderBottom: i<3 ? '1px solid #ede8e0' : 'none',
+                    cursor: 'pointer',
+                    background: activeWeek===i ? weekColors[i] : '#fff',
+                    transition: 'background 0.2s',
+                  }}
+                >
+                  <span style={{ display: 'inline-block', background: activeWeek===i ? weekTextColors[i] : '#e8e2d8', color: activeWeek===i ? '#fff' : '#6a5a48', fontSize: '0.5rem', fontWeight: 800, padding: '1px 5px', marginBottom: 4, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
+                    {w.code}
+                  </span>
+                  <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.7rem', fontWeight: 700, color: activeWeek===i ? weekTextColors[i] : '#1a0f0f', lineHeight: 1.25 }}>
+                    {w.title}
+                  </div>
+                  <div style={{ fontSize: '0.58rem', color: activeWeek===i ? weekTextColors[i] : '#9b7040', marginTop: 2, fontFamily: "'Plus Jakarta Sans',sans-serif", fontStyle: 'italic', opacity: 0.8 }}>
+                    {w.sub}
+                  </div>
                 </div>
               ))}
             </div>
+
+            {/* Session detail */}
             <div style={{ padding: '12px 16px', background: '#fdfaf4', borderTop: '1px solid #ede8e0' }}>
-              <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#9b7040', marginBottom: 8 }}>Sessions this week</div>
+              <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#9b7040', marginBottom: 8 }}>
+                Sessions this week
+              </div>
               {weeks[activeWeek].sessions.map(s => (
                 <div key={s.code} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '8px 12px', marginBottom: 6, background: weekColors[activeWeek], border: `0.5px solid ${weekTextColors[activeWeek]}22` }}>
-                  <span style={{ background: weekTextColors[activeWeek], color: '#fff', fontSize: '0.5rem', fontWeight: 800, padding: '2px 5px', flexShrink: 0, fontFamily: "'Plus Jakarta Sans',sans-serif", marginTop: 1 }}>{s.code}</span>
+                  <span style={{ background: weekTextColors[activeWeek], color: '#fff', fontSize: '0.5rem', fontWeight: 800, padding: '2px 5px', flexShrink: 0, fontFamily: "'Plus Jakarta Sans',sans-serif", marginTop: 1 }}>
+                    {s.code}
+                  </span>
                   <div>
-                    <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.76rem', fontWeight: 600, color: weekTextColors[activeWeek], marginBottom: 2, lineHeight: 1.3 }}>{s.title}</div>
-                    <div style={{ fontSize: '0.65rem', color: weekTextColors[activeWeek], fontWeight: 600, fontFamily: "'Plus Jakarta Sans',sans-serif", opacity: 0.8 }}>📄 {s.output}</div>
+                    <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.76rem', fontWeight: 600, color: weekTextColors[activeWeek], marginBottom: 2, lineHeight: 1.3 }}>
+                      {s.title}
+                    </div>
+                    <div style={{ fontSize: '0.65rem', color: weekTextColors[activeWeek], fontWeight: 600, fontFamily: "'Plus Jakarta Sans',sans-serif", opacity: 0.8 }}>
+                      📄 {s.output}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -317,20 +444,20 @@ export default function Program1() {
           backdropFilter: 'blur(8px)',
         }}>
           <div style={{
-                fontFamily: "'Playfair Display', serif",
-                fontStyle: 'italic',
-                fontSize: '0.68rem',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                color: '#8a7450',
-                marginBottom: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-              }}>
-                <span style={{ width: 24, height: 1, background: '#8a7450', flexShrink: 0, display: 'inline-block' }} />
-                What Students Gain
-              </div>
+            fontFamily: "'Playfair Display', serif",
+            fontStyle: 'italic',
+            fontSize: '0.68rem',
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+            color: '#8a7450',
+            marginBottom: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+          }}>
+            <span style={{ width: 24, height: 1, background: '#8a7450', flexShrink: 0, display: 'inline-block' }} />
+            What Students Gain
+          </div>
           <h2 style={{ fontSize: 'clamp(1.2rem,2vw,1.6rem)', fontWeight: 900, color: '#1a1208', margin: 0, fontFamily: "'Playfair Display',serif", lineHeight: 1.1 }}>
             After 6 weeks, your students will:
           </h2>
@@ -357,7 +484,6 @@ export default function Program1() {
             animation: tlVisible ? 'spineGrow 0.8s cubic-bezier(0.4,0,0.2,1) both' : 'none',
           }} />
 
-          {/* 2×3 grid of outcome cards */}
           <div className="p2-outcomes-grid" style={{ height: '100%' }}>
             {outcomes.map((o, i) => {
               const isLeft = i % 2 === 0
@@ -382,7 +508,6 @@ export default function Program1() {
                     transition: `opacity 0.45s ease ${0.1 + i * 0.1}s, transform 0.45s ease ${0.1 + i * 0.1}s`,
                   }}
                 >
-                  {/* Image panel */}
                   <div
                     className="outcome-card-image"
                     style={{
@@ -393,7 +518,6 @@ export default function Program1() {
                     <img src={outcomeImages[i]} alt={o.title} />
                   </div>
 
-                  {/* Text panel */}
                   <div className="outcome-card-text">
                     <div style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1b348f', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
                       {String(i + 1).padStart(2, '0')}
