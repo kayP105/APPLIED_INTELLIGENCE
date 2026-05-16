@@ -209,7 +209,7 @@ export default function FAQ() {
         #faq .faq-answer p {
           margin: 0;
           padding: 0 22px 18px;
-          font-size: 0.78rem;
+          font-size: 0.8rem;
           color: rgba(255,255,255,0.55);
           line-height: 1.8;
           border-top: 1px solid rgba(255,255,255,0.05);

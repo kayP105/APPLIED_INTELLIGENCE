@@ -130,7 +130,7 @@ export default function Contact() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          font-size: 0.6rem;
+          font-size: 0.8rem;
           font-weight: 700;
           letter-spacing: 0.14em;
           text-transform: uppercase;
@@ -146,7 +146,7 @@ export default function Contact() {
 
         #contact .c-heading {
           font-family: 'DM Serif Display', serif;
-          font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+          font-size: clamp(1.8rem, 2.8vw, 2.4rem);
           font-weight: 400;
           font-style: italic;
           color: #ffffff;
@@ -177,7 +177,7 @@ export default function Contact() {
         #contact .c-item:last-child { border-bottom: none; }
         #contact .c-item:hover { background: #0f2035; }
         #contact .c-item-label {
-          font-size: 0.58rem;
+          font-size: 0.7rem;
           font-weight: 700;
           letter-spacing: 0.12em;
           text-transform: uppercase;

@@ -6,13 +6,21 @@ export default function Cursor() {
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [usingMouse, setUsingMouse] = useState(false)
 
   useEffect(() => {
     setMounted(true)
 
-    const moveCursor = (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setUsingMouse(true)
+      setIsVisible(true)
       setPosition({ x: e.clientX, y: e.clientY })
-      if (!isVisible) setIsVisible(true)
+    }
+
+    const handleTouch = () => {
+      // User touched — hide cursor until mouse moves again
+      setUsingMouse(false)
+      setIsVisible(false)
     }
 
     const handleHover = (e: MouseEvent) => {
@@ -29,16 +37,18 @@ export default function Cursor() {
       }
     }
 
-    window.addEventListener('mousemove', moveCursor)
+    window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('mouseover', handleHover)
+    window.addEventListener('touchstart', handleTouch)
 
     return () => {
-      window.removeEventListener('mousemove', moveCursor)
+      window.removeEventListener('mousemove', handleMouseMove)
       window.removeEventListener('mouseover', handleHover)
+      window.removeEventListener('touchstart', handleTouch)
     }
-  }, [isVisible])
+  }, [])
 
-  if (!mounted || !isVisible) return null
+  if (!mounted || !isVisible || !usingMouse) return null
 
   return (
     <div
