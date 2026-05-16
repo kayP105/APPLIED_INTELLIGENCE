@@ -71,13 +71,13 @@ export default function Hero() {
           <div className="hero-new-tag">For Management · Commerce · Non Engineering Students</div>
 
           <h1 className="hero-new-h1">
-            AI skills built for<br />
-            <span className="hero-new-accent">non-engineers.</span><br />
-            Built to get hired.
+            AI Powered Career <br />
+            <span className="hero-new-accent">Readiness</span><br />
+            for mordern students..
           </h1>
 
           <p className="hero-new-body">
-            Most AI programs are designed for people who build AI. Applied Intelligence Academy is designed for the majority — management and commerce students who need to confidently navigate the AI-driven world of work from Day 1
+            We help sudents think, execute, and perform better using AI therfore improving placment readiness, interveiw performance and real-world execution.
           </p>
 
           <div className="hero-new-ctas">
