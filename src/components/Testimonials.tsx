@@ -25,6 +25,7 @@ export default function Testimonials() {
   const [vidActive, setVidActive] = useState(0)
   const [vidDir, setVidDir]       = useState<'left'|'right'|null>(null)
   const [isMobile, setIsMobile]   = useState(false)
+  const [mounted, setMounted]     = useState(false)   // ← ADD THIS
   const ref = useRef<HTMLDivElement>(null)
   const touchStartX = useRef<number>(0)
   const touchStartXVid = useRef<number>(0)
@@ -32,6 +33,7 @@ export default function Testimonials() {
   const vn = videos.length
 
   useEffect(() => {
+    setMounted(true)   // ← ADD THIS
     const check = () => setIsMobile(window.innerWidth <= 768)
     check()
     window.addEventListener('resize', check)
@@ -75,7 +77,6 @@ export default function Testimonials() {
     return 'hidden'
   }
 
-  // Unified card style — same glassmorphism for both feedback + video
   const cardStyle = (pos: string, dir: 'left'|'right'|null, mobile: boolean): React.CSSProperties => {
     const base: React.CSSProperties = {
       borderRadius: 12,
@@ -89,7 +90,7 @@ export default function Testimonials() {
       return {
         ...base,
         ...(pos === 'center' ? {
-          width: '90vw', zIndex: 10, opacity: 1,
+          width: '88vw', zIndex: 10, opacity: 1,
           background: 'rgba(255,255,255,0.15)',
           backdropFilter: 'blur(14px)',
           border: '1.5px solid rgba(255,255,255,0.4)',
@@ -108,42 +109,26 @@ export default function Testimonials() {
         boxShadow: '0 24px 64px rgba(0,0,0,0.45)',
         transform: dir === 'left' ? 'translateX(-16px) scale(0.97)' : dir === 'right' ? 'translateX(16px) scale(0.97)' : 'scale(1)',
       },
-      right1: {
-        width: 200, zIndex: 6, opacity: 0.65,
-        background: 'rgba(255,255,255,0.08)',
-        backdropFilter: 'blur(8px)',
-        border: '1.5px dashed rgba(255,255,255,0.22)',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-        transform: 'scale(0.9)',
-      },
-      right2: {
-        width: 140, zIndex: 4, opacity: 0.35,
-        background: 'rgba(255,255,255,0.05)',
-        backdropFilter: 'blur(6px)',
-        border: '1.5px dashed rgba(255,255,255,0.12)',
-        transform: 'scale(0.8)',
-      },
-      left1: {
-        width: 200, zIndex: 6, opacity: 0.65,
-        background: 'rgba(255,255,255,0.08)',
-        backdropFilter: 'blur(8px)',
-        border: '1.5px dashed rgba(255,255,255,0.22)',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-        transform: 'scale(0.9)',
-      },
-      left2: {
-        width: 140, zIndex: 4, opacity: 0.35,
-        background: 'rgba(255,255,255,0.05)',
-        backdropFilter: 'blur(6px)',
-        border: '1.5px dashed rgba(255,255,255,0.12)',
-        transform: 'scale(0.8)',
-      },
+      right1: { width: 200, zIndex: 6, opacity: 0.65, background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)', border: '1.5px dashed rgba(255,255,255,0.22)', boxShadow: '0 4px 20px rgba(0,0,0,0.2)', transform: 'scale(0.9)' },
+      right2: { width: 140, zIndex: 4, opacity: 0.35, background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(6px)', border: '1.5px dashed rgba(255,255,255,0.12)', transform: 'scale(0.8)' },
+      left1:  { width: 200, zIndex: 6, opacity: 0.65, background: 'rgba(255,255,255,0.08)', backdropFilter: 'blur(8px)', border: '1.5px dashed rgba(255,255,255,0.22)', boxShadow: '0 4px 20px rgba(0,0,0,0.2)', transform: 'scale(0.9)' },
+      left2:  { width: 140, zIndex: 4, opacity: 0.35, background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(6px)', border: '1.5px dashed rgba(255,255,255,0.12)', transform: 'scale(0.8)' },
       hidden: { width: 0, opacity: 0, zIndex: 0, border: 'none' },
     }
     return { ...base, ...map[pos] }
   }
 
-  const bgPage: React.CSSProperties = {
+  // ← KEY FIX: mobile-aware page style, only applied after mount
+  const bgPage: React.CSSProperties = mounted && isMobile ? {
+    minHeight: '100svh',
+    boxSizing: 'border-box',
+    paddingTop: 68,
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'visible',
+    fontFamily: "'Plus Jakarta Sans', sans-serif",
+  } : {
     height: '100vh',
     boxSizing: 'border-box',
     paddingTop: 68,
@@ -173,9 +158,20 @@ export default function Testimonials() {
           cursor: pointer; transition: background 0.2s, transform 0.2s; padding: 0;
         }
         .tm-dot.active { background: #fff; transform: scale(1.3); }
-        /* Hover lift for ALL carousel cards */
-        .tm-carousel-card:hover {
-          box-shadow: 0 20px 50px rgba(0,0,0,0.5) !important;
+        .tm-carousel-card:hover { box-shadow: 0 20px 50px rgba(0,0,0,0.5) !important; }
+
+        @media (max-width: 768px) {
+          #testimonials,
+          #testimonials-video {
+            height: auto !important;
+            min-height: 100svh !important;
+            overflow: visible !important;
+          }
+          .tm-carousel-card {
+            width: 88vw !important;
+            height: auto !important;
+            min-height: 280px !important;
+          }
         }
       `}</style>
 
@@ -200,11 +196,12 @@ export default function Testimonials() {
                 <span style={{ width: 20, height: 1.5, background: '#93c5fd', display: 'inline-block' }} />
                 Student Voices
               </div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,2.8vw,2.3rem)', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.1 }}>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: 'clamp(1.7rem,2.8vw,2.3rem)', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.1 }}>
                 What students say.
               </h2>
             </div>
-            {!isMobile && (
+            {/* Hide subtext on mobile */}
+            {mounted && !isMobile && (
               <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, margin: 0, maxWidth: 340, textAlign: 'right' }}>
                 Real feedback from students who completed the Interview Acceleration Lab — in their own words.
               </p>
@@ -219,9 +216,9 @@ export default function Testimonials() {
               if (Math.abs(diff) > 40) go(diff > 0 ? 'right' : 'left')
             }}
             style={{
-              flex: 1, minHeight: 0,
+              flex: 1, minHeight: mounted && isMobile ? 320 : 0,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              gap: 14, padding: '0 3%',
+              gap: 14, padding: mounted && isMobile ? '20px 3% 24px' : '0 3%',
               opacity: visible ? 1 : 0,
               transition: 'opacity 0.5s ease 0.2s',
             }}
@@ -233,8 +230,8 @@ export default function Testimonials() {
                 const pos = getPos(i, active, n)
                 if (pos === 'hidden') return null
                 const isCenter = pos === 'center'
-                const style = cardStyle(pos, animDir, isMobile)
-                if (isMobile && !isCenter) return null
+                const style = cardStyle(pos, animDir, mounted ? isMobile : false)
+                if (mounted && isMobile && !isCenter) return null
 
                 return (
                   <div
@@ -242,13 +239,13 @@ export default function Testimonials() {
                     className="tm-carousel-card"
                     style={{
                       ...style,
-                      height: isMobile ? 'auto' : isCenter ? '82%' : pos.includes('2') ? '38%' : '55%',
+                      height: (mounted && isMobile) ? 'auto' : isCenter ? '82%' : pos.includes('2') ? '38%' : '55%',
+                      minHeight: (mounted && isMobile) ? 280 : undefined,
                       padding: isCenter ? '22px 24px' : '14px 14px',
                       display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                     }}
                     onClick={() => !isCenter && setActive(i)}
                   >
-                    {/* Quote mark */}
                     <div>
                       <div style={{
                         fontFamily: "'Playfair Display', serif",
@@ -258,7 +255,6 @@ export default function Testimonials() {
                         marginBottom: isCenter ? 10 : 5,
                       }}>&ldquo;</div>
 
-                      {/* Text */}
                       <p style={{
                         fontSize: isCenter ? '0.8rem' : '0.63rem',
                         color: isCenter ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.7)',
@@ -272,7 +268,6 @@ export default function Testimonials() {
                       </p>
                     </div>
 
-                    {/* Author */}
                     <div style={{
                       display: 'flex', alignItems: 'center', gap: 8,
                       borderTop: '1px solid rgba(255,255,255,0.15)',
@@ -328,7 +323,7 @@ export default function Testimonials() {
                 <span style={{ width: 20, height: 1.5, background: '#93c5fd', display: 'inline-block' }} />
                 Video Testimonials
               </div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.7rem,2.8vw,2.3rem)', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.1 }}>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: 'clamp(1.7rem,2.8vw,2.3rem)', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.1 }}>
                 Hear it from the students.
               </h2>
             </div>
@@ -344,7 +339,11 @@ export default function Testimonials() {
               const diff = touchStartXVid.current - e.changedTouches[0].clientX
               if (Math.abs(diff) > 40) goVid(diff > 0 ? 'right' : 'left')
             }}
-            style={{ flex: 1, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, padding: '0 3%' }}
+            style={{
+              flex: 1, minHeight: mounted && isMobile ? 280 : 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              gap: 14, padding: mounted && isMobile ? '20px 3% 24px' : '0 3%',
+            }}
           >
             <button className="tm-arrow" onClick={() => goVid('left')}>←</button>
 
@@ -353,8 +352,8 @@ export default function Testimonials() {
                 const pos = getPos(i, vidActive, vn)
                 if (pos === 'hidden') return null
                 const isCenter = pos === 'center'
-                if (isMobile && !isCenter) return null
-                const style = cardStyle(pos, vidDir, isMobile)
+                if (mounted && isMobile && !isCenter) return null
+                const style = cardStyle(pos, vidDir, mounted ? isMobile : false)
 
                 return (
                   <div
@@ -362,14 +361,14 @@ export default function Testimonials() {
                     className="tm-carousel-card"
                     style={{
                       ...style,
-                      height: isMobile ? 'auto' : '100%',
+                      height: (mounted && isMobile) ? 'auto' : '100%',
+                      minHeight: (mounted && isMobile) ? 220 : undefined,
                       display: 'flex', flexDirection: 'column',
                       alignItems: 'center', justifyContent: 'center', gap: 14,
                       padding: isCenter ? '28px 24px' : '16px 14px',
                     }}
                     onClick={() => !isCenter && setVidActive(i)}
                   >
-                    {/* Play button */}
                     <div style={{
                       width: isCenter ? 60 : 36, height: isCenter ? 60 : 36,
                       borderRadius: '50%',
@@ -377,11 +376,9 @@ export default function Testimonials() {
                       border: '1.5px solid rgba(255,255,255,0.4)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       color: '#fff', fontSize: isCenter ? '1.1rem' : '0.7rem',
-                      flexShrink: 0,
-                      transition: 'all 0.38s',
+                      flexShrink: 0, transition: 'all 0.38s',
                     }}>▶</div>
 
-                    {/* Label */}
                     <div style={{
                       fontSize: isCenter ? '0.8rem' : '0.62rem',
                       color: isCenter ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.65)',

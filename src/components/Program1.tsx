@@ -97,133 +97,325 @@ export default function Program1() {
   return (
     <>
       <style>{`
-        /* ── PAGE 1 ── */
+  /* ───────────────── PAGE 1 ───────────────── */
 
-        /* Desktop: two-column side by side */
-        .p1-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 24px;
-          width: 100%;
-          align-items: start;
-        }
+  .p1-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    align-items: start;
+  }
 
-        /* Mobile: single column, full content visible */
-        @media (max-width: 767px) {
-          .p1-section {
-            /* Remove fixed height so content can expand naturally */
-            min-height: unset !important;
-            height: auto !important;
-            /* Reset vertical centering so content starts from top */
-            align-items: flex-start !important;
-            padding: 80px 5% 40px !important;
-            overflow: visible !important;
-          }
-          .p1-grid {
-            grid-template-columns: 1fr !important;
-            gap: 16px !important;
-          }
-          .p1-calendar {
-            /* Show a compact calendar on mobile instead of hiding entirely */
-            display: block !important;
-          }
-          .p1-deliverables {
-            grid-template-columns: 1fr !important;
-          }
-          .p1-stats-row {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 6px !important;
-          }
-        }
+  /* Hide calendar everywhere — desktop and mobile */
+  .p1-calendar {
+    display: none !important;
+  }
 
-        /* ── Outcome cards — base (desktop) ── */
-        .p2-outcomes-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 10px;
-        }
-        .outcome-card {
-          display: flex;
-          overflow: hidden;
-        }
-        .outcome-card-image {
-          flex-shrink: 0;
-          width: 36%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 10px 12px;
-        }
-        .outcome-card-image img {
-          width: 100%;
-          max-height: 110px;
-          object-fit: contain;
-          border-radius: 4px;
-          display: block;
-        }
-        .outcome-card-text {
-          flex: 1;
-          min-width: 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          gap: 4px;
-          padding: 12px 16px;
-        }
+  @media (max-width: 767px) {
+    .p1-section {
+      min-height: unset !important;
+      height: auto !important;
+      align-items: flex-start !important;
+      padding: 80px 5% 40px !important;
+      overflow: visible !important;
+    }
 
-        /* ── Mobile overrides for page 2 ── */
-        @media (max-width: 767px) {
-          #program1-outcomes {
-            height: auto !important;
-            min-height: unset !important;
-            overflow: visible !important;
-          }
-          .p2-page {
-            height: auto !important;
-            overflow-y: visible !important;
-          }
-          .p2-header { height: auto !important; padding: 16px 4% !important; }
-          .p2-timeline {
-            padding: 12px 4% !important;
-            flex: none !important;
-            overflow-y: visible !important;
-          }
-          .p2-outcomes-grid {
-            grid-template-columns: 1fr !important;
-            height: auto !important;
-          }
-          .p2-spine { display: none !important; }
-          .p2-stats-inner {
-            grid-template-columns: repeat(2, 1fr) !important;
-            row-gap: 14px !important;
-            padding: 8px 4% !important;
-          }
-          .outcome-card {
-            flex-direction: row !important;
-            min-height: 80px;
-          }
-          .outcome-card-image {
-            width: 25% !important;
-            padding: 8px 8px !important;
-            border-right: 1px solid rgba(221,214,200,0.5) !important;
-            border-left: none !important;
-            border-bottom: none !important;
-          }
-          .outcome-card-image img {
-            max-height: 64px !important;
-          }
-          .outcome-card-text {
-            padding: 10px 12px !important;
-            justify-content: flex-start !important;
-          }
-        }
+    .p1-grid {
+      gap: 16px !important;
+    }
 
-        /* ── Animations ── */
-        @keyframes spineGrow {
-          from { transform: translateX(-50%) scaleY(0); }
-          to   { transform: translateX(-50%) scaleY(1); }
-        }
-      `}</style>
+    .p1-deliverables {
+      grid-template-columns: 1fr !important;
+    }
+
+    .p1-stats-row {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 6px !important;
+    }
+  }
+
+  /* ───────────────── PAGE 2 REDESIGN ───────────────── */
+
+  #program1-outcomes{
+    background:
+      radial-gradient(circle at top right, rgba(31, 55, 101, 0.36), transparent 30%),
+      radial-gradient(circle at left center, rgba(31, 55, 101, 0.36), transparent 25%),
+      #071225 !important;
+  }
+
+  .p2-page{
+    min-height:100vh;
+    padding-top:68px;
+  }
+
+  .p2-header{
+  padding:30px 4% 18px;
+}
+
+  .p2-label{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#d8b56a;
+    font-size:.72rem;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin-bottom:20px;
+  }
+
+  .p2-label::before{
+    content:'';
+    width:34px;
+    height:1px;
+    background:#3b82f6;
+  }
+
+  .p2-title{
+  font-size:1.7rem;
+  line-height:1.08;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-0.035em;
+  max-width:950px;
+  font-style: 'italic',
+}
+
+  .p2-title span{
+    color:#60a5fa;
+  }
+
+  .p2-sub{
+    margin-top:18px;
+    color:rgba(255,255,255,.72);
+    font-size:1.05rem;
+    line-height:1.8;
+    max-width:760px;
+  }
+
+  .p2-timeline{
+    padding:18px 4%;
+  }
+
+  .p2-outcomes-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+
+  .outcome-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:14px;
+  min-height:128px;
+  border:1px solid rgba(96,165,250,.18);
+  background:#091427;
+  box-shadow:0 10px 24px rgba(0,0,0,.24);
+  transition:all .3s ease;
+}
+
+  .outcome-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(96,165,250,.42);
+    box-shadow:
+      0 0 24px rgba(37,99,235,.16),
+      0 24px 44px rgba(0,0,0,.42);
+  }
+
+  .outcome-card-bg{
+    position:absolute;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:.72;
+    transition:transform .45s ease;
+  }
+
+  .outcome-card:hover .outcome-card-bg{
+    transform:scale(1.05);
+  }
+
+  .outcome-card-overlay{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(
+        to top,
+        rgba(2,8,23,.96),
+        rgba(2,8,23,.45)
+      );
+  }
+
+  .outcome-badge{
+  position:absolute;
+  top:14px;
+  left:14px;
+  z-index:3;
+  width:42px;
+  height:26px;
+  border-radius:999px;
+  background:rgba(11,31,58,.88);
+  border:1px solid rgba(96,165,250,.35);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.68rem;
+  font-weight:700;
+}
+
+  .outcome-card-text{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:2;
+  padding:12px 16px;
+}
+
+  .outcome-card-text h4{
+  color:#fff;
+  font-size:.82rem;
+  line-height:1.15;
+  margin-bottom:4px;
+  font-weight:700;
+}
+
+  .outcome-card-text p{
+  color:rgba(255,255,255,.72);
+  font-size:.68rem;
+  line-height:1.4;
+}
+
+  .p2-stats{
+    margin:24px 4%;
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid rgba(96,165,250,.18);
+    background:rgba(4,12,28,.84);
+    backdrop-filter:blur(10px);
+  }
+
+  .p2-stats-inner{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .p2-stat{
+  padding:16px 14px;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+
+  .p2-stat:last-child{
+    border-right:none;
+  }
+
+  .p2-stat-num{
+  color:#fff;
+  font-size:1.55rem;
+  font-weight:800;
+  line-height:1;
+  margin-bottom:4px;
+}
+
+  .p2-stat-num span{
+  color:#60a5fa;
+  font-size:.72rem;
+}
+
+  .p2-stat-text{
+  color:rgba(255,255,255,.72);
+  font-size:.68rem;
+  line-height:1.35;
+}
+
+  /* ───────────────── MOBILE ───────────────── */
+
+  @media (max-width:767px){
+
+    #program1-outcomes {
+      height: auto !important;
+      min-height: unset !important;
+      overflow: visible !important;
+    }
+
+    .p2-page {
+      height: auto !important;
+      overflow-y: visible !important;
+    }
+
+    .p2-header{
+      padding:32px 5% 22px !important;
+    }
+
+    .p2-title{
+      font-size:1.5rem;
+      font-style: 'italic',
+    }
+
+    .p2-timeline{
+      padding:14px 4% !important;
+      flex:none !important;
+      overflow-y:visible !important;
+    }
+
+    .p2-outcomes-grid{
+      display:grid;
+      grid-template-columns:1fr !important;
+      gap:14px !important;
+    }
+
+    .outcome-card{
+      min-height:200px !important;
+    }
+
+    .outcome-card-text{
+      padding:20px;
+    }
+
+    .outcome-card-text h4{
+      font-size:1.15rem;
+    }
+
+    .outcome-card-text p{
+      font-size:.82rem;
+    }
+
+    .p2-stats{
+      margin:20px 5%;
+    }
+
+    .p2-stats-inner{
+      grid-template-columns:1fr 1fr !important;
+    }
+
+    .p2-stat{
+      padding:22px 16px;
+    }
+
+    .p2-stat-num{
+      font-size:2rem;
+    }
+
+    .p2-stat-text{
+      font-size:.8rem;
+    }
+  }
+
+  /* ───────────────── ANIMATIONS ───────────────── */
+
+  @keyframes spineGrow {
+    from {
+      transform: translateX(-50%) scaleY(0);
+    }
+    to {
+      transform: translateX(-50%) scaleY(1);
+    }
+  }
+`}</style>
 
       {/* ══ PAGE 1: Cert + Calendar ══ */}
       <section
@@ -236,7 +428,6 @@ export default function Program1() {
           alignItems: 'center',
           padding: '72px 3% 40px',
           boxSizing: 'border-box',
-          // REMOVED overflow: hidden — this was clipping content on mobile
         }}
       >
         {/* Background */}
@@ -244,10 +435,9 @@ export default function Program1() {
           position: 'absolute', inset: 0,
           backgroundImage: "url('/program1-bg.png')",
           backgroundSize: 'cover', backgroundPosition: 'center 30%',
-          // Prevent bg from expanding with content on mobile
           zIndex: 0,
         }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,20,10,0.65)', zIndex: 1 }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(11,31,58,0.65), rgba(15,42,92,0.65))', zIndex: 1 }} />
 
         <div
           className="p1-grid"
@@ -274,7 +464,7 @@ export default function Program1() {
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#9b2020', color: '#fff', fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 10px', marginBottom: 8 }}>
                   ⭐ Programme 1
                 </div>
-                <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.4rem,2vw,1.9rem)', fontWeight: 900, color: '#1a0f0f', lineHeight: 1.15, margin: '0 0 4px' }}>
+                <h2 style={{ fontFamily: "'Playfair Display',serif",fontStyle: 'italic', fontSize: 'clamp(1.4rem,2vw,1.9rem)', fontWeight: 900, color: '#1a0f0f', lineHeight: 1.15, margin: '0 0 4px' }}>
                   AI Productivity &amp; Career Certification
                 </h2>
                 <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: '0.7rem', color: '#9b7040', fontStyle: 'italic' }}>
@@ -282,7 +472,7 @@ export default function Program1() {
                 </div>
               </div>
 
-              {/* Stats row — 2 cols on mobile, 4 on desktop */}
+              {/* Stats row */}
               <div className="p1-stats-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }}>
                 {[['6','Weeks'],['12','Sessions'],['24hrs','Live'],['75–80%','Hands-on']].map(([n,l]) => (
                   <div key={l} style={{ textAlign: 'center', padding: '10px 4px', background: '#fff', border: '0.5px solid #ddd0b8' }}>
@@ -309,7 +499,7 @@ export default function Program1() {
               </div>
               <div className="p1-deliverables" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 5 }}>
                 {deliverables.map(d => (
-                  <div key={d} style={{ background: 'rgba(255,255,255,0.88)', padding: '5px 10px', fontSize: '0.72rem', color: '#1a0f0f', fontFamily: "'Plus Jakarta Sans',sans-serif", display: 'flex', gap: 7 }}>
+                  <div key={d} style={{ background: '#d7dce0', padding: '5px 10px', fontSize: '0.72rem', color: '#1a0f0f', fontFamily: "'Plus Jakarta Sans',sans-serif", display: 'flex', gap: 7 }}>
                     <span style={{ color: '#9b2020', fontWeight: 700, fontSize: '0.65rem', flexShrink: 0 }}>{d.slice(0,2)}</span>
                     <span>{d.slice(3)}</span>
                   </div>
@@ -328,8 +518,8 @@ export default function Program1() {
             </div>
           </div>
 
-          {/* ── RIGHT COLUMN — Calendar (compact on mobile, full on desktop) ── */}
-          <div className="p1-calendar" style={{ background: 'rgba(255,255,255,0.95)', boxShadow: '0 8px 32px rgba(0,0,0,0.2)', overflow: 'hidden' }}>
+          {/* ── RIGHT COLUMN — Calendar hidden temporarily ── */}
+          <div className="p1-calendar">
 
             {/* Calendar header */}
             <div style={{ background: '#1a0f0f', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -415,147 +605,131 @@ export default function Program1() {
       </section>
 
       {/* ══ PAGE 2: Outcomes + Timeline ══ */}
-      <div
-        id="program1-outcomes"
-        ref={tlRef}
-        className="p2-page"
-        style={{
-          height: '100vh',
-          boxSizing: 'border-box',
-          backgroundImage: "url('/gradient-mesh.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          paddingTop: 68,
-        }}
-      >
-        {/* HEADER */}
-        <div className="p2-header" style={{
-          height: 64,
-          flexShrink: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: '0 4%',
-          borderBottom: '1px solid rgba(0,0,0,0.08)',
-          background: 'rgba(253,246,227,0.6)',
-          backdropFilter: 'blur(8px)',
-        }}>
-          <div style={{
-            fontFamily: "'Playfair Display', serif",
-            fontStyle: 'italic',
-            fontSize: '0.68rem',
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: '#8a7450',
-            marginBottom: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}>
-            <span style={{ width: 24, height: 1, background: '#8a7450', flexShrink: 0, display: 'inline-block' }} />
-            What Students Gain
+<div
+  id="program1-outcomes"
+  ref={tlRef}
+  className="p2-page"
+  style={{
+    minHeight: '100vh',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    paddingTop: 68,
+  }}
+>
+
+  {/* HEADER */}
+  <div className="p2-header">
+
+    <div className="p2-label">
+      WHAT STUDENTS GAIN
+    </div>
+
+    <h2 className="p2-title">
+      In just <span>6 weeks</span>, students learn to think,
+      build, communicate, and perform like professionals.
+    </h2>
+
+  </div>
+
+  {/* OUTCOMES GRID */}
+  <div
+    className="p2-timeline"
+    style={{
+      flex: 1,
+      minHeight: 0,
+      position: 'relative',
+      overflowY: isMobile ? 'auto' : 'hidden',
+    }}
+  >
+
+    <div className="p2-outcomes-grid">
+
+      {outcomes.map((o, i) => (
+
+        <div
+          key={i}
+          className="outcome-card"
+          style={{
+            opacity: tlVisible ? 1 : 0,
+            transform: tlVisible
+              ? 'translateY(0)'
+              : 'translateY(18px)',
+            transition: `opacity 0.45s ease ${0.08 + i * 0.08}s, transform 0.45s ease ${0.08 + i * 0.08}s`,
+          }}
+        >
+
+          {/* IMAGE */}
+          <div
+            className="outcome-card-bg"
+            style={{
+              backgroundImage: `url(${outcomeImages[i]})`
+            }}
+          />
+
+          {/* DARK OVERLAY */}
+          <div className="outcome-card-overlay" />
+
+          {/* NUMBER BADGE */}
+          <div className="outcome-badge">
+            {String(i + 1).padStart(2, '0')}
           </div>
-          <h2 style={{ fontSize: 'clamp(1.2rem,2vw,1.6rem)', fontWeight: 900, color: '#1a1208', margin: 0, fontFamily: "'Playfair Display',serif", lineHeight: 1.1 }}>
-            After 6 weeks, your students will:
-          </h2>
+
+          {/* TEXT */}
+          <div className="outcome-card-text">
+
+            <h4>
+              {o.title}
+            </h4>
+
+            <p>
+              {o.body}
+            </p>
+
+          </div>
+
         </div>
 
-        {/* OUTCOMES GRID */}
-        <div className="p2-timeline" style={{
-          flex: 1,
-          minHeight: 0,
-          position: 'relative',
-          padding: '14px 5%',
-          overflowY: isMobile ? 'auto' : 'hidden',
-        }}>
-          {/* Spine — desktop only */}
-          <div className="p2-spine" style={{
-            position: 'absolute',
-            left: '50%',
-            top: 14,
-            bottom: 14,
-            width: 1,
-            background: 'linear-gradient(to bottom, #c9a96e44, #5a9a9088, #2a6a5a44)',
-            transform: 'translateX(-50%)',
-            transformOrigin: 'top center',
-            animation: tlVisible ? 'spineGrow 0.8s cubic-bezier(0.4,0,0.2,1) both' : 'none',
-          }} />
+      ))}
 
-          <div className="p2-outcomes-grid" style={{ height: '100%' }}>
-            {outcomes.map((o, i) => {
-              const isLeft = i % 2 === 0
-              return (
-                <div
-                  key={i}
-                  className="outcome-card"
-                  style={{
-                    background: 'rgba(217,244,248,0.88)',
-                    backdropFilter: 'blur(6px)',
-                    borderLeft: isLeft ? '3px solid #19357c' : '1px solid rgba(221,214,200,0.7)',
-                    borderRight: isLeft ? '1px solid rgba(221,214,200,0.7)' : '3px solid #126b8c',
-                    borderTop: '1px solid rgba(221,214,200,0.7)',
-                    borderBottom: '1px solid rgba(221,214,200,0.7)',
-                    borderRadius: isLeft ? '0 6px 6px 0' : '6px 0 0 6px',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
-                    flexDirection: isLeft ? 'row' : 'row-reverse',
-                    opacity: tlVisible ? 1 : 0,
-                    transform: tlVisible
-                      ? 'translateX(0)'
-                      : `translateX(${isLeft ? '-20px' : '20px'})`,
-                    transition: `opacity 0.45s ease ${0.1 + i * 0.1}s, transform 0.45s ease ${0.1 + i * 0.1}s`,
-                  }}
-                >
-                  <div
-                    className="outcome-card-image"
-                    style={{
-                      borderLeft: isLeft ? 'none' : '1px solid rgba(221,214,200,0.5)',
-                      borderRight: isLeft ? '1px solid rgba(221,214,200,0.5)' : 'none',
-                    }}
-                  >
-                    <img src={outcomeImages[i]} alt={o.title} />
-                  </div>
+    </div>
 
-                  <div className="outcome-card-text">
-                    <div style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1b348f', fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-                      {String(i + 1).padStart(2, '0')}
-                    </div>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1a1208', lineHeight: 1.25, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-                      {o.title}
-                    </div>
-                    <div style={{ fontSize: '0.72rem', color: '#3a2e1e', lineHeight: 1.5, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-                      {o.body}
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+  </div>
+
+  {/* STATS BAR */}
+  <div className="p2-stats">
+
+    <div className="p2-stats-inner">
+
+      {stats.map((s, i) => (
+
+        <div
+          className="p2-stat"
+          key={i}
+        >
+
+          <div className="p2-stat-num">
+            {s.num}
+
+            {s.suffix && (
+              <span> {s.suffix}</span>
+            )}
           </div>
+
+          <div className="p2-stat-text">
+            {s.desc}
+          </div>
+
         </div>
 
-        {/* STATS BAR */}
-        <div style={{
-          flexShrink: 0,
-          background: '#0f2a5c',
-          display: 'flex',
-          alignItems: 'center',
-          padding: '12px 0',
-        }}>
-          <div className="p2-stats-inner" style={{ width: '100%', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', textAlign: 'center' }}>
-            {stats.map((s, i) => (
-              <div key={i} style={{ borderRight: i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none', padding: '0 10px' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', lineHeight: 1.1, fontFamily: "'Playfair Display',serif" }}>
-                  {s.num}
-                  {s.suffix && <span style={{ color: '#93c5fd', fontSize: '0.82rem', fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 600 }}>{' '}{s.suffix}</span>}
-                </div>
-                <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.6)', fontFamily: "'Plus Jakarta Sans',sans-serif", marginTop: 2 }}>{s.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      ))}
+
+    </div>
+
+  </div>
+
+</div>
     </>
   )
 }

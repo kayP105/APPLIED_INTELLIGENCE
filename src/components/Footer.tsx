@@ -26,8 +26,8 @@ export default function Footer() {
         <div>
           <div className="footer-col-title">Contact</div>
           <ul className="footer-links-list">
-            <li><a href="mailto:hello@appliedintelligenceacademy.com">hello@appliedintelligenceacademy.com</a></li>
-            <li><a href ="+91 8884706382">+91 8884706382</a></li>
+            <li><a href="mailto:godwin@appliedintelligenceacademy.com">hello@appliedintelligenceacademy.com</a></li>
+            <li><a href="tel:+916362143358">+91 6362143358</a></li>
             <li><a href="#">India · Online &amp; On-Campus</a></li>
             <li><a href="#contact">Request a Pilot →</a></li>
           </ul>

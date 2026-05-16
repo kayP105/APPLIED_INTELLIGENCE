@@ -3,48 +3,54 @@
 import { useEffect, useState, useCallback } from 'react'
 
 const SECTIONS = [
-  { id: 'hero',           label: 'Home' },
-  { id: 'problem',        label: 'The Gap' },
-  { id: 'program1',       label: 'AI Certification' },
+  { id: 'hero',              label: 'Home' },
+  { id: 'problem',           label: 'The Gap' },
+  { id: 'program1',          label: 'AI Certification' },
   { id: 'program1-outcomes', label: 'What Students Gain' },
-  { id: 'program2',       label: 'Interview Lab' },
-  { id: 'transformation', label: 'Transformation' },
-  { id: 'testimonials',   label: 'Students' },
-  { id: 'testimonials-video', label:'Videos'},
-  { id: 'delivery',       label: 'How It Works' },
-  { id: 'about',          label: 'About' },
-  { id: 'faq',            label: 'FAQ' },
-  { id: 'cta',            label: 'CTA'},
-  { id: 'contact',        label: 'Contact' },
-  { id: 'footer',label:'footer'},
+  { id: 'program2',          label: 'Interview Lab' },
+  { id: 'transformation',    label: 'Transformation' },
+  { id: 'testimonials',      label: 'Students' },
+  { id: 'testimonials-video',label: 'Videos' },
+  { id: 'delivery',          label: 'How It Works' },
+  { id: 'about',             label: 'About' },
+  { id: 'faq',               label: 'FAQ' },
+  { id: 'cta',               label: 'CTA' },
+  { id: 'contact',           label: 'Contact' },
+  { id: 'footer',            label: 'footer' },
 ]
+
+/** Returns true if el has more scrollable content in the given direction */
+function canScrollInside(el: HTMLElement, direction: 'down' | 'up'): boolean {
+  const scrollable = el.scrollHeight > el.clientHeight + 5
+  if (!scrollable) return false
+  if (direction === 'down') {
+    return el.scrollHeight - el.scrollTop - el.clientHeight > 50
+  }
+  return el.scrollTop > 50
+}
 
 export default function PageScroller() {
   const [activeIdx, setActiveIdx] = useState(0)
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const [visible, setVisible] = useState(true)
+
   // Track active section via IntersectionObserver
   useEffect(() => {
     const observers: IntersectionObserver[] = []
-
     SECTIONS.forEach((sec, i) => {
       const el = document.getElementById(sec.id)
       if (!el) return
-
       const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveIdx(i)
-        },
+        ([entry]) => { if (entry.isIntersecting) setActiveIdx(i) },
         { threshold: 0.1 }
       )
       obs.observe(el)
       observers.push(obs)
     })
-
     return () => observers.forEach(o => o.disconnect())
   }, [])
 
-  // Hide dots when nav is open on mobile or when over footer
+  // Hide dots when footer is visible
   useEffect(() => {
     const footer = document.getElementById('footer')
     if (!footer) return
@@ -56,75 +62,44 @@ export default function PageScroller() {
     return () => obs.disconnect()
   }, [])
 
-  const scrollTo = useCallback((idx: number) => {
+  /** Jump straight to a section by index */
+  const jumpTo = useCallback((idx: number) => {
     const el = document.getElementById(SECTIONS[idx].id)
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
-  // Arrow key navigation
- useEffect(() => {
-  const onKey = (e: KeyboardEvent) => {
-    const tag = (e.target as HTMLElement).tagName
-    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return
+  /**
+   * Smart navigate: if the current section has more to scroll internally,
+   * scroll it. Otherwise jump to the next/prev section.
+   */
+  const navigate = useCallback((direction: 'down' | 'up') => {
+  setActiveIdx(prev => {
+    const next = direction === 'down'
+      ? Math.min(prev + 1, SECTIONS.length - 1)
+      : Math.max(prev - 1, 0)
 
-    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-      e.preventDefault()
-      
-      const currentEl = document.getElementById(SECTIONS[activeIdx].id)
-      
-      // Only scroll within section if it's actually scrollable AND not near bottom
-      if (currentEl) {
-        const isScrollable = currentEl.scrollHeight > currentEl.clientHeight + 5
-        const atBottom = currentEl.scrollHeight - currentEl.scrollTop - currentEl.clientHeight < 50
-        
-        if (isScrollable && !atBottom) {
-          currentEl.scrollBy({ top: 300, behavior: 'smooth' })
-          return
-        }
-        // If at bottom of scrollable section, reset its scroll and go next
-        if (isScrollable && atBottom) {
-          setActiveIdx(prev => {
-            const next = Math.min(prev + 1, SECTIONS.length - 1)
-            scrollTo(next)
-            return next
-          })
-          return
-        }
+    jumpTo(next)
+    return next
+  })
+}, [jumpTo])
+
+  // Keyboard arrow / page key navigation
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement).tagName
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return
+
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault()
+        navigate('down')
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault()
+        navigate('up')
       }
-
-      // Not scrollable — just go to next section
-      setActiveIdx(prev => {
-        const next = Math.min(prev + 1, SECTIONS.length - 1)
-        scrollTo(next)
-        return next
-      })
     }
-
-    if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-      e.preventDefault()
-
-      const currentEl = document.getElementById(SECTIONS[activeIdx].id)
-
-      if (currentEl) {
-        const isScrollable = currentEl.scrollHeight > currentEl.clientHeight + 5
-        const atTop = currentEl.scrollTop < 50
-
-        if (isScrollable && !atTop) {
-          currentEl.scrollBy({ top: -300, behavior: 'smooth' })
-          return
-        }
-      }
-
-      setActiveIdx(prev => {
-        const next = Math.max(prev - 1, 0)
-        scrollTo(next)
-        return next
-      })
-    }
-  }
-  window.addEventListener('keydown', onKey)
-  return () => window.removeEventListener('keydown', onKey)
-}, [scrollTo, activeIdx])
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [navigate])
 
   if (!visible) return null
 
@@ -136,7 +111,7 @@ export default function PageScroller() {
           <button
             key={sec.id}
             className={`page-dot-btn${activeIdx === i ? ' active' : ''}`}
-            onClick={() => scrollTo(i)}
+            onClick={() => { setActiveIdx(i); jumpTo(i) }}
             onMouseEnter={() => setHoveredIdx(i)}
             onMouseLeave={() => setHoveredIdx(null)}
             aria-label={`Go to ${sec.label}`}
@@ -153,7 +128,7 @@ export default function PageScroller() {
       <div className="page-arrows">
         <button
           className="page-arrow-btn"
-          onClick={() => scrollTo(Math.max(activeIdx - 1, 0))}
+          onClick={() => navigate('up')}
           disabled={activeIdx === 0}
           aria-label="Previous section"
         >
@@ -161,7 +136,7 @@ export default function PageScroller() {
         </button>
         <button
           className="page-arrow-btn"
-          onClick={() => scrollTo(Math.min(activeIdx + 1, SECTIONS.length - 1))}
+          onClick={() => navigate('down')}
           disabled={activeIdx === SECTIONS.length - 1}
           aria-label="Next section"
         >

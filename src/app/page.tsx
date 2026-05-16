@@ -14,10 +14,12 @@ import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 import PageScroller from '@/components/Pagescroller'
 import StatsBar from '@/components/StatsBar'
+import Cursor from "@/components/cursor"
 
 export default function Home() {
   return (
     <>
+      <Cursor/>
       <Splash />
       <Nav />
       <PageScroller/>
