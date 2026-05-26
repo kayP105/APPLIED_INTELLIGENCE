@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from 'next'
+import { GoogleAnalytics } from '@next/third-parties/google'
+import { Analytics } from '@vercel/analytics/react'
 import '@/styles/globals.css'
 
 export const viewport: Viewport = {
@@ -8,12 +10,19 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Applied Intelligence Academy | AI Productivity & Career Training for MBA & Management Students',
-  description: 'Applied Intelligence Academy helps MBA, BBA and management students master AI tools and become placement-ready professionals. AI training for non-engineers across India.',
-  keywords: 'AI for MBA students, AI for management students, AI for non-engineers, AI productivity course India, placement training MBA, career readiness program, AI skills for BBA students',
+  title:
+    'Applied Intelligence Academy | AI Productivity & Career Training for MBA & Management Students',
+  description:
+    'Applied Intelligence Academy helps MBA, BBA and management students master AI tools and become placement-ready professionals. AI training for non-engineers across India.',
+  keywords:
+    'AI for MBA students, AI for management students, AI for non-engineers, AI productivity course India, placement training MBA, career readiness program, AI skills for BBA students',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
       <head>
@@ -23,9 +32,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
+
       <body suppressHydrationWarning>
-  {children}
-</body>
+        {children}
+
+        <GoogleAnalytics gaId="G-5Q42VJD9HW" />
+        <Analytics />
+      </body>
     </html>
   )
 }
