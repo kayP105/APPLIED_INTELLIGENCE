@@ -10,6 +10,10 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://appliedintelligenceacademy.com'),
+  alternates: {
+    canonical: 'https://appliedintelligenceacademy.com',
+  },
   title:
     'Applied Intelligence Academy | AI Productivity & Career Training for MBA & Management Students',
   description:
@@ -17,7 +21,6 @@ export const metadata: Metadata = {
   keywords:
     'AI for MBA students, AI for management students, AI for non-engineers, AI productivity course India, placement training MBA, career readiness program, AI skills for BBA students',
 }
-
 export default function RootLayout({
   children,
 }: {
