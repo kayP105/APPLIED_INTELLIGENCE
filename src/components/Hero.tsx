@@ -73,7 +73,7 @@ export default function Hero() {
           <h1 className="hero-new-h1">
             AI Powered Career <br />
             <span className="hero-new-accent">Readiness</span><br />
-            for MODERN STUDENTS.
+            for Modern Students
           </h1>
 
           <p className="hero-new-body">
